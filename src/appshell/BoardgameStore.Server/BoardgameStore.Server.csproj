@@ -13,5 +13,10 @@
     <ProjectReference Include="..\BoardgameStore.Shared\BoardgameStore.Shared.csproj" />
   </ItemGroup>
 
+  <!-- Artificially simulating the "pushing" of the microfrontends to a CDN -->
+  <Target Name="CopyDll" AfterTargets="Build">
+    <RemoveDir Directories="CDN" />
+    <Copy SourceFiles="..\..\discover-microfrontend\BoardgameStore.Discover\bin\Debug\net5.0\BoardgameStore.Discover.dll" DestinationFolder="CDN" OverwriteReadOnlyFiles="true" />
+  </Target>
 
 </Project>

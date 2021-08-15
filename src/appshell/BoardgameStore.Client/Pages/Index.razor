@@ -1,7 +1,26 @@
 ﻿@page "/"
+@using BoardgameStore.Shared
+@inject ComponentCollection ComponentCollection
 
-<h1>Hello, world!</h1>
+<h1>BoardgameStore Homepage</h1>
 
-Welcome to your new app.
+@{
+    if(Component is null) return;
+    RenderFragment fragment = builder =>
+    {
+        var num = 0;
+        builder.OpenComponent(num++, Component);
+        builder.CloseComponent();
+    };
+    @fragment
+}
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+@code {
+    private Type Component { get; set; }
+    
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        Component = ComponentCollection.FirstOrDefault(c => c.FullName.Equals("BoardgameStore.Discover.GameOverview")); //TODO remove hardcode
+    }
+}
