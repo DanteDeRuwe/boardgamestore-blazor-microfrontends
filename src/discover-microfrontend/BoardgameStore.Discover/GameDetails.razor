@@ -1,0 +1,40 @@
+﻿@page "/game?id={Id}"
+
+<h3>GameDetails</h3>
+
+<ul>
+    <li>
+        <b>Name: </b> @_game.Name
+    </li>
+    <li>
+        <b>Price: </b> €@_game.Price
+    </li>
+</ul>
+
+@code {
+
+    [Parameter]
+    public string Id { get; set; }
+
+    private Game _game;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        _game = GetGame(Id);
+    }
+
+    // dummy implementation
+    private Game GetGame(string id)
+    {
+        return id switch
+        {
+            "1" => new Game { Name = "Catan", Price = 40.00 },
+            "2" => new Game { Name = "Carcassonne", Price = 35.00 },
+            "3" => new Game { Name = "Pandemic", Price = 36.99 },
+            _ => _game
+        };
+    }
+
+
+}

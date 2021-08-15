@@ -1,8 +1,10 @@
 using System;
 using System.Linq;
 using System.Net.Http;
+using System.Reflection;
 using System.Runtime.Loader;
 using System.Threading.Tasks;
+using BoardgameStore.Client.Routing;
 using BoardgameStore.Utils;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
@@ -25,6 +27,8 @@ namespace BoardgameStore.Client
             var client = new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) };
             builder.Services.AddScoped<HttpClient>(_ => client);
             
+            builder.Services.AddScoped<RouteManager>();
+            
             // TODO remove hardcode
             var dlls = new[]
             {
@@ -32,6 +36,8 @@ namespace BoardgameStore.Client
             };
 
             var assemblies = dlls.Select(AssemblyLoadContext.Default.LoadFromStream).ToList();
+            assemblies.Add(Assembly.GetAssembly(typeof(App))); //add app shell client assembly too for custom router
+            
             var componentCollection = ComponentCollection.FromAssemblies(assemblies);
             builder.Services.AddScoped<ComponentCollection>(_=> componentCollection);
         }

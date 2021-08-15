@@ -3,6 +3,8 @@ using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Reflection;
+using BoardgameStore.Client;
+using BoardgameStore.Client.Routing;
 using BoardgameStore.Utils;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -12,7 +14,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
-using IComponent = Microsoft.AspNetCore.Components.IComponent;
 
 namespace BoardgameStore.Server
 {
@@ -24,12 +25,12 @@ namespace BoardgameStore.Server
         }
 
         private IConfiguration _configuration;
-        
+
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
             services.AddRazorPages();
-            
+
             services.AddScoped<HttpClient>(sp =>
             {
                 // Get the address that the app is currently running at
@@ -38,10 +39,14 @@ namespace BoardgameStore.Server
                 var baseAddress = addressFeature.Addresses.First();
                 return new HttpClient { BaseAddress = new Uri(baseAddress) };
             });
-            
+
+            services.AddScoped<RouteManager>();
+
             //Add microfrontend components into componentcollection
             var dllFiles = Directory.GetFiles(@"CDN");
             var assemblies = dllFiles.Select(Assembly.LoadFrom).ToList();
+            assemblies.Add(Assembly.GetAssembly(typeof(App))); //add app shell client assembly too for custom router
+
             var componentCollection = ComponentCollection.FromAssemblies(assemblies);
             services.AddScoped<ComponentCollection>(_ => componentCollection);
         }
@@ -62,7 +67,7 @@ namespace BoardgameStore.Server
             app.UseHttpsRedirection();
             app.UseBlazorFrameworkFiles();
             app.UseStaticFiles();
-            
+
             // Make sure we serve the CDN files
             app.UseStaticFiles(new StaticFileOptions
             {
