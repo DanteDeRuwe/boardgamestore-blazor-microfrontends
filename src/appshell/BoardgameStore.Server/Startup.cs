@@ -42,10 +42,7 @@ namespace BoardgameStore.Server
             //Add microfrontend components into componentcollection
             var dllFiles = Directory.GetFiles(@"CDN");
             var assemblies = dllFiles.Select(Assembly.LoadFrom).ToList();
-            var components = assemblies
-                .SelectMany(a => a.GetTypes().Where(t => t.GetInterfaces().Contains(typeof(IComponent))))
-                .ToList();
-            var componentCollection = new ComponentCollection(components);
+            var componentCollection = ComponentCollection.FromAssemblies(assemblies);
             services.AddScoped<ComponentCollection>(_ => componentCollection);
         }
 

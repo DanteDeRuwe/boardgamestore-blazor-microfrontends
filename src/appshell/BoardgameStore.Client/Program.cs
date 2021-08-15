@@ -1,11 +1,9 @@
 using System;
 using System.Linq;
 using System.Net.Http;
-using System.Reflection;
 using System.Runtime.Loader;
 using System.Threading.Tasks;
 using BoardgameStore.Utils;
-using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -17,23 +15,16 @@ namespace BoardgameStore.Client
         {
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
 
-            ConfigureServices(builder);
+            await ConfigureServicesAsync(builder);
             var host = builder.Build();
-            await Configure(host);
             await host.RunAsync();
         }
 
-        private static void ConfigureServices(WebAssemblyHostBuilder builder)
+        private static async Task ConfigureServicesAsync(WebAssemblyHostBuilder builder)
         {
-            builder.Services.AddScoped(sp => new HttpClient
-                { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
-            builder.Services.AddScoped<ComponentCollection>();
-        }
-
-        private static async Task Configure(WebAssemblyHost host)
-        {
-            var client = host.Services.GetRequiredService<HttpClient>();
-
+            var client = new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) };
+            builder.Services.AddScoped<HttpClient>(_ => client);
+            
             // TODO remove hardcode
             var dlls = new[]
             {
@@ -41,11 +32,9 @@ namespace BoardgameStore.Client
             };
 
             var assemblies = dlls.Select(AssemblyLoadContext.Default.LoadFromStream).ToList();
-            assemblies.Add(Assembly.GetAssembly(typeof(App)));
-            var components = assemblies
-                .SelectMany(a => a.GetTypes().Where(t => t.GetInterfaces().Contains(typeof(IComponent))))
-                .ToList();
-            host.Services.GetRequiredService<ComponentCollection>().UnionWith(components);
+            var componentCollection = ComponentCollection.FromAssemblies(assemblies);
+            builder.Services.AddScoped<ComponentCollection>(_=> componentCollection);
         }
+        
     }
 }

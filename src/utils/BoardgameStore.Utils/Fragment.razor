@@ -19,6 +19,6 @@
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
-        Component = ComponentCollection.FirstOrDefault(c => c.FullName.Equals(Name));
+        Component = ComponentCollection[Name];
     }
 }
