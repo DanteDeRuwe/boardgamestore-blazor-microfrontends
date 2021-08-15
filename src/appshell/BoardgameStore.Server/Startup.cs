@@ -31,25 +31,11 @@ namespace BoardgameStore.Server
             services.AddControllersWithViews();
             services.AddRazorPages();
 
-            services.AddScoped<HttpClient>(sp =>
-            {
-                // Get the address that the app is currently running at
-                var server = sp.GetRequiredService<IServer>();
-                var addressFeature = server.Features.Get<IServerAddressesFeature>();
-                var baseAddress = addressFeature.Addresses.First();
-                return new HttpClient { BaseAddress = new Uri(baseAddress) };
-            });
+            services.AddSelfReferentialHttpClient();
+            services.AddMicrofrontends();
 
-            services.AddScoped<RouteManager>();
-
-            //Add microfrontend components into componentcollection
-            var dllFiles = Directory.GetFiles(@"CDN");
-            var assemblies = dllFiles.Select(Assembly.LoadFrom).ToList();
-            assemblies.Add(Assembly.GetAssembly(typeof(App))); //add app shell client assembly too for custom router
-
-            var componentCollection = ComponentCollection.FromAssemblies(assemblies);
-            services.AddScoped<ComponentCollection>(_ => componentCollection);
         }
+        
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {

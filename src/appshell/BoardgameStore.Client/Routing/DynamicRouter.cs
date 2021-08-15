@@ -78,8 +78,11 @@ namespace BoardgameStore.Client.Routing
         {
             var relativeUri = NavigationManager.ToBaseRelativePath(_location);
             var parameters = ParseQueryString(relativeUri);
-            relativeUri = Regex.Replace(relativeUri, @"\?.*?$", ""); //cut off querystring
-            var segments = relativeUri.Trim().Split('/', StringSplitOptions.RemoveEmptyEntries);
+
+            var segments = Regex.Replace(relativeUri, @"\?.*?$", "")
+                .Trim()
+                .Split('/', StringSplitOptions.RemoveEmptyEntries);
+            
             var matchResult = RouteManager.Match(segments);
 
             if (!matchResult.IsMatch)
@@ -88,9 +91,7 @@ namespace BoardgameStore.Client.Routing
                 return;
             }
 
-            var routeData = new RouteData(
-                matchResult.MatchedRoute.Handler,
-                parameters);
+            var routeData = new RouteData(matchResult.MatchedRoute.Handler, parameters);
 
             _renderHandle.Render(Found(routeData));
         }

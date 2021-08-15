@@ -1,11 +1,10 @@
 ﻿@inject ComponentCollection ComponentCollection
 @{
     if (Component is null) return;
-    RenderFragment fragment = builder =>
+    RenderFragment fragment = renderTreeBuilder =>
     {
-        var num = 0;
-        builder.OpenComponent(num++, Component);
-        builder.CloseComponent();
+        renderTreeBuilder.OpenComponent(0, Component);
+        renderTreeBuilder.CloseComponent();
     };
     @fragment
 }
