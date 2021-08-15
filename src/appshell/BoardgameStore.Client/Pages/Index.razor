@@ -1,26 +1,5 @@
 ﻿@page "/"
-@using BoardgameStore.Shared
-@inject ComponentCollection ComponentCollection
 
 <h1>BoardgameStore Homepage</h1>
 
-@{
-    if(Component is null) return;
-    RenderFragment fragment = builder =>
-    {
-        var num = 0;
-        builder.OpenComponent(num++, Component);
-        builder.CloseComponent();
-    };
-    @fragment
-}
-
-@code {
-    private Type Component { get; set; }
-    
-    protected override async Task OnInitializedAsync()
-    {
-        await base.OnInitializedAsync();
-        Component = ComponentCollection.FirstOrDefault(c => c.FullName.Equals("BoardgameStore.Discover.GameOverview")); //TODO remove hardcode
-    }
-}
+<Fragment Name="BoardgameStore.Discover.GameOverview"/>

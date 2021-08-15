@@ -3,9 +3,8 @@ using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Reflection;
-using BoardgameStore.Shared;
+using BoardgameStore.Utils;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.AspNetCore.Hosting.Server.Features;
@@ -13,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
+using IComponent = Microsoft.AspNetCore.Components.IComponent;
 
 namespace BoardgameStore.Server
 {

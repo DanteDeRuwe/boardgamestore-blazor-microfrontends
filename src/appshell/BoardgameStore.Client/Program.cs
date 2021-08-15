@@ -4,7 +4,7 @@ using System.Net.Http;
 using System.Reflection;
 using System.Runtime.Loader;
 using System.Threading.Tasks;
-using BoardgameStore.Shared;
+using BoardgameStore.Utils;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;

@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\utils\BoardgameStore.Utils\BoardgameStore.Utils.csproj" />
     <ProjectReference Include="..\BoardgameStore.Shared\BoardgameStore.Shared.csproj" />
   </ItemGroup>
 

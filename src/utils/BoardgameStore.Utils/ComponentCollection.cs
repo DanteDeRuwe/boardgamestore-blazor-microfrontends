@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace BoardgameStore.Shared
+namespace BoardgameStore.Utils
 {
     public class ComponentCollection : HashSet<Type>
     {

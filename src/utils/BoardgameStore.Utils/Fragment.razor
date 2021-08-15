@@ -1,0 +1,24 @@
+﻿@inject ComponentCollection ComponentCollection
+@{
+    if (Component is null) return;
+    RenderFragment fragment = builder =>
+    {
+        var num = 0;
+        builder.OpenComponent(num++, Component);
+        builder.CloseComponent();
+    };
+    @fragment
+}
+
+@code {
+    [Parameter]
+    public string Name { get; set; }
+
+    private Type Component { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        Component = ComponentCollection.FirstOrDefault(c => c.FullName.Equals(Name));
+    }
+}

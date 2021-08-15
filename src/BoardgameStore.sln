@@ -1,4 +1,4 @@
-
+﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30717.126
@@ -14,6 +14,10 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "discover-microfrontend", "discover-microfrontend", "{55018DC4-D5C4-4C78-8B7E-B2ED87209846}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoardgameStore.Discover", "discover-microfrontend\BoardgameStore.Discover\BoardgameStore.Discover.csproj", "{B576315C-86B6-40E8-8030-383068B7D4B4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoardgameStore.Utils", "utils\BoardgameStore.Utils\BoardgameStore.Utils.csproj", "{EECE0CFA-59D9-45CD-8D5D-A974B4E13A80}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "utils", "utils", "{19B2F26D-116A-4800-A55F-49E56A40E612}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,6 +41,10 @@ Global
 		{B576315C-86B6-40E8-8030-383068B7D4B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B576315C-86B6-40E8-8030-383068B7D4B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B576315C-86B6-40E8-8030-383068B7D4B4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EECE0CFA-59D9-45CD-8D5D-A974B4E13A80}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EECE0CFA-59D9-45CD-8D5D-A974B4E13A80}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EECE0CFA-59D9-45CD-8D5D-A974B4E13A80}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EECE0CFA-59D9-45CD-8D5D-A974B4E13A80}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -49,5 +57,6 @@ Global
 		{D94F5DA7-9B94-4BF1-86F7-B9F27B819E34} = {8449F8C1-3B9E-4E04-8653-31D83C6AFE3C}
 		{37D555D3-114D-468D-A82E-B86F42647C1C} = {8449F8C1-3B9E-4E04-8653-31D83C6AFE3C}
 		{B576315C-86B6-40E8-8030-383068B7D4B4} = {55018DC4-D5C4-4C78-8B7E-B2ED87209846}
+		{EECE0CFA-59D9-45CD-8D5D-A974B4E13A80} = {19B2F26D-116A-4800-A55F-49E56A40E612}
 	EndGlobalSection
 EndGlobal
