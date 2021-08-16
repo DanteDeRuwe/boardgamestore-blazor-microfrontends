@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -30,13 +31,33 @@ namespace BoardgameStore.Server
         {
             // Add the route manager for pages
             services.AddScoped<RouteManager>();
-            
+
             // Add the components
             var dllFiles = Directory.GetFiles(@"CDN");
             var assemblies = dllFiles.Select(Assembly.LoadFrom).ToList();
             assemblies.Add(Assembly.GetAssembly(typeof(App)));
+
+
             var componentCollection = ComponentCollection.FromAssemblies(assemblies);
             services.AddScoped<ComponentCollection>(_ => componentCollection);
+
+            services.AddMicrofrontendsDependencyInjection(assemblies);
+        }
+
+        private static void AddMicrofrontendsDependencyInjection(
+            this IServiceCollection services,
+            IEnumerable<Assembly> assemblies)
+        {
+            foreach (var assembly in assemblies)
+            {
+                var configureServicesMethod = assembly
+                    .GetTypes()
+                    .FirstOrDefault(x => x.Name.Equals("Microfrontend", StringComparison.Ordinal))
+                    ?.GetMethod("ConfigureServices", BindingFlags.Public | BindingFlags.Static, null,
+                        new[] { typeof(IServiceCollection) }, null);
+
+                configureServicesMethod?.Invoke(null, new[] { services });
+            }
         }
     }
 }

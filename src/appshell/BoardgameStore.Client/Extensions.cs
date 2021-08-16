@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Reflection;
 using System.Runtime.Loader;
@@ -23,9 +25,24 @@ namespace BoardgameStore.Client
 
             var assemblies = dlls.Select(AssemblyLoadContext.Default.LoadFromStream).ToList();
             assemblies.Add(Assembly.GetAssembly(typeof(App)));
-            
             var componentCollection = ComponentCollection.FromAssemblies(assemblies);
             services.AddScoped<ComponentCollection>(_=> componentCollection);
+            
+            services.AddMicrofrontendsDependencyInjection(assemblies);
+        }
+
+        private static void AddMicrofrontendsDependencyInjection(this IServiceCollection services, IEnumerable<Assembly> assemblies)
+        {
+            foreach (var assembly in assemblies)
+            {
+                var configure = assembly
+                    .GetTypes()
+                    .FirstOrDefault(x => string.Equals(x.Name, "Microfrontend", StringComparison.Ordinal))
+                    ?.GetMethod("ConfigureServices", BindingFlags.Public | BindingFlags.Static, null,
+                        new[] { typeof(IServiceCollection) }, null);
+
+                configure?.Invoke(null, new[] { services });
+            }
         }
     }
 }
