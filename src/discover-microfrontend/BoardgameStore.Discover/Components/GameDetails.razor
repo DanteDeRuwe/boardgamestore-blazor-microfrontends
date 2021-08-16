@@ -1,5 +1,6 @@
 ﻿@page "/game?id={Id}"
 @using BoardgameStore.Discover.Repositories
+@using BoardgameStore.Discover.Entities
 @inject IGameRepository GameRepository;
 
 @if (_game is null)
@@ -8,16 +9,15 @@
     return;
 }
 
-<h3>GameDetails</h3>
+<h3 class="mb-5">Details for @_game.Name</h3>
 
-<ul>
-    <li>
+<div class="container-fluid d-flex flex-row flex-nowrap align-items-center">
+    <img src="@_game.ImageUrl" width="200" alt="@_game.Name box" style="padding: 0 2rem;"/>
+    <div class="d-flex flex-column">
         <b>Name: </b> @_game.Name
-    </li>
-    <li>
-        <b>Price: </b> €@_game.Price
-    </li>
-</ul>
+        <b>Price: </b> @_game.Price.ToString("C")
+    </div>
+</div>
 
 @code {
 

@@ -1,0 +1,11 @@
+﻿@using BoardgameStore.Discover.Repositories
+@inject IGameRepository GameRepository
+
+<div class="container-fluid d-flex flex-wrap">
+        @foreach (var game in GameRepository.GetAll())
+        {
+            <GameCard Game=@game/>
+        }
+</div>
+
+@code{}

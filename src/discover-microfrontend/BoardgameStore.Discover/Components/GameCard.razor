@@ -1,0 +1,17 @@
+﻿@using BoardgameStore.Discover.Entities
+<a href=@($"/game?id={Game.Id}") style="text-decoration: inherit; color: inherit;">
+    <div class="card" style="width: 18rem; margin-right: 1rem;">
+        <div class="card-img-top" style="background: url('@Game.ImageUrl') no-repeat center center; background-size: contain; height: 200px; width: 100%"></div>
+        <div class="card-body">
+            <h5 class="card-title">@Game.Name</h5>
+            <b>@Game.Price.ToString("C")</b>
+        </div>
+    </div>
+</a>
+
+@code {
+
+    [Parameter]
+    public Game Game { get; set; }
+
+}
