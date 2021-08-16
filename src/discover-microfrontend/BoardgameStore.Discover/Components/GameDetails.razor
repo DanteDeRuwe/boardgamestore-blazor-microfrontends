@@ -8,14 +8,15 @@
     <p>Woops, there is no game here. <a href="">Go back home.</a></p>
     return;
 }
+<div class="card container p-5">
+    <h3 class="mb-5">Details for @_game.Name</h3>
 
-<h3 class="mb-5">Details for @_game.Name</h3>
-
-<div class="container-fluid d-flex flex-row flex-nowrap align-items-center">
-    <img src="@_game.ImageUrl" width="200" alt="@_game.Name box" style="padding: 0 2rem;"/>
-    <div class="d-flex flex-column">
-        <b>Name: </b> @_game.Name
-        <b>Price: </b> @_game.Price.ToString("C")
+    <div class="d-flex flex-row flex-nowrap align-items-center">
+        <img src="@_game.ImageUrl" width="200" alt="@_game.Name box" style="padding: 0 2rem;"/>
+        <div class="d-flex flex-column">
+            <b>Name: </b> @_game.Name
+            <b>Price: </b> @_game.Price.ToString("C")
+        </div>
     </div>
 </div>
 
@@ -34,4 +35,5 @@
             _game = GameRepository.GetBy(id);
         }
     }
+
 }
