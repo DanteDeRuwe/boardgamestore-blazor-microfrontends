@@ -1,4 +1,4 @@
-﻿namespace BoardgameStore.Client.Routing
+﻿namespace BoardgameStore.Utils.Routing
 {
     public class MatchResult
     {

@@ -1,15 +1,10 @@
-using System;
 using System.IO;
 using System.Linq;
-using System.Net.Http;
 using System.Reflection;
 using BoardgameStore.Client;
-using BoardgameStore.Client.Routing;
 using BoardgameStore.Utils;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Hosting.Server;
-using Microsoft.AspNetCore.Hosting.Server.Features;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
@@ -32,8 +27,13 @@ namespace BoardgameStore.Server
             services.AddRazorPages();
 
             services.AddSelfReferentialHttpClient();
-            services.AddMicrofrontends();
-
+            
+            // Add the components
+            var dllFiles = Directory.GetFiles(@"CDN");
+            var assemblies = dllFiles.Select(Assembly.LoadFrom).ToList();
+            assemblies.Add(Assembly.GetAssembly(typeof(App)));
+            
+            services.AddMicrofrontends(assemblies);
         }
         
 

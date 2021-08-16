@@ -1,16 +1,17 @@
-﻿namespace BoardgameStore.Discover.Repositories
+using System.Collections.Generic;
+using System.Linq;
+
+namespace BoardgameStore.Discover.Repositories
 {
     public class InMemoryGameRepository : IGameRepository
     {
-        public Game GetBy(int id)
+        private readonly List<Game> _games = new()
         {
-            return id switch
-            {
-                1 => new Game { Name = "Catan", Price = 40.00 },
-                2 => new Game { Name = "Carcassonne", Price = 35.00 },
-                3 => new Game { Name = "Pandemic", Price = 36.99 },
-                _ => null
-            };
-        }
+            new Game { Id = 1, Name = "Catan", Price = 40.00 },
+            new Game { Id = 2, Name = "Carcassonne", Price = 35.00 },
+            new Game { Id = 3, Name = "Pandemic", Price = 36.99 },
+        };
+
+        public Game GetBy(int id) => _games.SingleOrDefault(g => g.Id.Equals(id));
     }
 }

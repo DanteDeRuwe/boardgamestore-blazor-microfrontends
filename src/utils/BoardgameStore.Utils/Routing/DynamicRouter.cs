@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Routing;
 
-namespace BoardgameStore.Client.Routing
+namespace BoardgameStore.Utils.Routing
 {
     public class DynamicRouter : IComponent, IHandleAfterRender, IDisposable
     {

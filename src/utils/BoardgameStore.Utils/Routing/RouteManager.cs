@@ -1,10 +1,9 @@
 ﻿using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
-using BoardgameStore.Utils;
 using Microsoft.AspNetCore.Components;
 
-namespace BoardgameStore.Client.Routing
+namespace BoardgameStore.Utils.Routing
 {
     public class RouteManager
     {

@@ -1,6 +1,10 @@
 using System;
+using System.Linq;
 using System.Net.Http;
+using System.Reflection;
+using System.Runtime.Loader;
 using System.Threading.Tasks;
+using BoardgameStore.Utils;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -19,7 +23,19 @@ namespace BoardgameStore.Client
         {
             var client = new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) };
             builder.Services.AddScoped<HttpClient>(_ => client);
-            await builder.Services.AddMicrofrontendsAsync(client);
+            
+            // Get assemblies
+            // TODO remove hardcode
+            var dlls = new[]
+            {
+                await client.GetStreamAsync("/CDN/BoardgameStore.Discover.dll"),
+            };
+
+            var assemblies = dlls.Select(AssemblyLoadContext.Default.LoadFromStream).ToList();
+            assemblies.Add(Assembly.GetAssembly(typeof(App)));
+            
+            
+            builder.Services.AddMicrofrontends(assemblies); //the magic
         }
         
     }
