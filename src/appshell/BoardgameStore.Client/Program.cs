@@ -1,6 +1,7 @@
 using System;
-using System.Linq;
+using System.Collections.Generic;
 using System.Net.Http;
+using System.Net.Http.Json;
 using System.Reflection;
 using System.Runtime.Loader;
 using System.Threading.Tasks;
@@ -24,19 +25,24 @@ namespace BoardgameStore.Client
             var client = new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) };
             builder.Services.AddScoped<HttpClient>(_ => client);
             
-            // Get assemblies
-            // TODO remove hardcode
-            var dlls = new[]
-            {
-                await client.GetStreamAsync("/CDN/BoardgameStore.Discover.dll"),
-            };
-
-            var assemblies = dlls.Select(AssemblyLoadContext.Default.LoadFromStream).ToList();
-            assemblies.Add(Assembly.GetAssembly(typeof(App)));
-            
-            
+            var assemblies = await GetAssembliesAsync(client);
             builder.Services.AddMicrofrontends(assemblies); //the magic
         }
-        
+
+        private static async Task<List<Assembly>> GetAssembliesAsync(HttpClient client)
+        {
+            var assemblyFiles = await client.GetFromJsonAsync<string[]>("/api/assemblies");
+            var assemblies = new List<Assembly>();
+            
+            if (assemblyFiles is null) return assemblies;
+            foreach (var f in assemblyFiles)
+            {
+                var dll = await client.GetStreamAsync($"{f}");
+                assemblies.Add(AssemblyLoadContext.Default.LoadFromStream(dll));
+            }
+
+            assemblies.Add(Assembly.GetAssembly(typeof(App)));
+            return assemblies;
+        }
     }
 }
