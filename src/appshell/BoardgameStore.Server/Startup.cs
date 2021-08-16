@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -28,15 +29,10 @@ namespace BoardgameStore.Server
 
             services.AddSelfReferentialHttpClient();
             
-            // Add the components
-            var dllFiles = Directory.GetFiles(@"CDN");
-            var assemblies = dllFiles.Select(Assembly.LoadFrom).ToList();
-            assemblies.Add(Assembly.GetAssembly(typeof(App)));
-            
+            var assemblies = GetAssemblies();
             services.AddMicrofrontends(assemblies);
         }
         
-
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -71,6 +67,17 @@ namespace BoardgameStore.Server
                 endpoints.MapControllers();
                 endpoints.MapFallbackToPage("/_Host");
             });
+        }
+        
+        private static List<Assembly> GetAssemblies()
+        {
+            var dllFiles = Directory.GetFiles(@"CDN");
+            var assemblies = dllFiles.Select(Assembly.LoadFrom).ToList();
+            
+            var clientAssembly = Assembly.GetAssembly(typeof(App));
+            assemblies.Add(clientAssembly);
+            
+            return assemblies;
         }
     }
 }
