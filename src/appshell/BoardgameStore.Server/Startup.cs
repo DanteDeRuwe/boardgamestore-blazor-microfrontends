@@ -31,7 +31,7 @@ namespace BoardgameStore.Server
 
             services.AddSelfReferentialHttpClient();
 
-            var assemblies = GetAssemblies();
+            var assemblies = LoadAssemblies();
             services.AddMicrofrontends(assemblies);
         }
 
@@ -71,35 +71,28 @@ namespace BoardgameStore.Server
             });
         }
 
-        private static List<Assembly> GetAssemblies()
+        private static IEnumerable<Assembly> LoadAssemblies()
         {
-            var files = Directory.GetFiles(@"CDN");
-            var dlls = files.Where(f => f.EndsWith("dll"));
-
-            var assemblies = new List<Assembly>();
-
-            foreach (var dll in dlls)
-            {
-                var pdbPath = Regex.Replace(dll, @"\.dll$", ".pdb");
-                var isPdbPresent = File.Exists(pdbPath);
-                
-                var pdbStream = isPdbPresent ? File.Open(pdbPath, FileMode.Open) : null;
-                var dllStream = File.Open(dll, FileMode.Open);
-                try
-                {
-                    var assembly = AssemblyLoadContext.Default.LoadFromStream(dllStream, pdbStream);
-                    assemblies.Add(assembly);
-                }
-                finally
-                {
-                    dllStream?.Close();
-                    pdbStream?.Close();
-                }
-            }
+            var dllPaths = Directory.GetFiles(@"CDN")
+                .Where(f => f.EndsWith("dll"))
+                .ToList();
 
             var clientAssembly = Assembly.GetAssembly(typeof(App));
-            assemblies.Add(clientAssembly);
+            var assemblies = new List<Assembly> { clientAssembly };
 
+            if (dllPaths.Count < 1) return assemblies;
+
+            foreach (var dllPath in dllPaths)
+            {
+                var pdbPath = Regex.Replace(dllPath, @"\.dll$", ".pdb");
+
+                using var pdbStream = File.Exists(pdbPath) ? File.Open(pdbPath, FileMode.Open) : null;
+                using var dllStream = File.Open(dllPath, FileMode.Open);
+
+                var assembly = AssemblyLoadContext.Default.LoadFromStream(dllStream, pdbStream);
+                assemblies.Add(assembly);
+            }
+            
             return assemblies;
         }
     }

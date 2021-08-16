@@ -9,7 +9,7 @@ namespace BoardgameStore.Utils
 {
     public static class Extensions
     {
-        public static void AddMicrofrontends(this IServiceCollection services, IList<Assembly> assemblies)
+        public static void AddMicrofrontends(this IServiceCollection services, IEnumerable<Assembly> assemblies)
         {
             // Add the route manager for pages
             services.AddScoped<RouteManager>();
