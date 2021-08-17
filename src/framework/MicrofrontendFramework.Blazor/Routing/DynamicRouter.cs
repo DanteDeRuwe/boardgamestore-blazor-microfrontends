@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Routing;
 
-namespace BoardgameStore.Utils.Routing
+namespace MicrofrontendFramework.Blazor.Routing
 {
     public class DynamicRouter : IComponent, IHandleAfterRender, IDisposable
     {

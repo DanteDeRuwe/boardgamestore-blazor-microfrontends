@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace BoardgameStore.Utils.Routing
+namespace MicrofrontendFramework.Blazor.Routing
 {
     public class Route
     {

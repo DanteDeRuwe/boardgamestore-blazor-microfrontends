@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace BoardgameStore.Utils
+namespace MicrofrontendFramework.Blazor
 {
     public class ComponentCollection : List<Type>
     {

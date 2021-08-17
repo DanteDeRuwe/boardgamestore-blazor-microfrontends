@@ -1,4 +1,3 @@
-using BoardgameStore.Utils;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -10,6 +9,7 @@ using System.Reflection;
 using System.Runtime.Loader;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using MicrofrontendFramework.Blazor;
 
 namespace BoardgameStore.Client
 {

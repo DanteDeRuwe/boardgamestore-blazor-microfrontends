@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\utils\BoardgameStore.Utils\BoardgameStore.Utils.csproj" />
+    <ProjectReference Include="..\..\framework\MicrofrontendFramework.Blazor\MicrofrontendFramework.Blazor.csproj" />
     <ProjectReference Include="..\BoardgameStore.Shared\BoardgameStore.Shared.csproj" />
   </ItemGroup>
 

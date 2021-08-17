@@ -3,7 +3,7 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Components;
 
-namespace BoardgameStore.Utils.Routing
+namespace MicrofrontendFramework.Blazor.Routing
 {
     public class RouteManager
     {

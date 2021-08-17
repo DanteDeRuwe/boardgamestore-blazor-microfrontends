@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BoardgameStore.Utils
+namespace MicrofrontendFramework.Blazor
 {
     public sealed class FragmentAttribute : Attribute
     {

@@ -1,4 +1,4 @@
-﻿namespace BoardgameStore.Utils.Routing
+﻿namespace MicrofrontendFramework.Blazor.Routing
 {
     public class MatchResult
     {

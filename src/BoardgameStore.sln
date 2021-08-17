@@ -15,9 +15,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "discover-microfrontend", "d
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoardgameStore.Discover", "discover-microfrontend\BoardgameStore.Discover\BoardgameStore.Discover.csproj", "{B576315C-86B6-40E8-8030-383068B7D4B4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoardgameStore.Utils", "utils\BoardgameStore.Utils\BoardgameStore.Utils.csproj", "{EECE0CFA-59D9-45CD-8D5D-A974B4E13A80}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicrofrontendFramework.Blazor", "framework\MicrofrontendFramework.Blazor\MicrofrontendFramework.Blazor.csproj", "{EECE0CFA-59D9-45CD-8D5D-A974B4E13A80}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "utils", "utils", "{19B2F26D-116A-4800-A55F-49E56A40E612}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "framework", "framework", "{19B2F26D-116A-4800-A55F-49E56A40E612}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

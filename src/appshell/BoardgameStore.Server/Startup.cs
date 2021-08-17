@@ -1,5 +1,4 @@
 using BoardgameStore.Client;
-using BoardgameStore.Utils;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -12,6 +11,7 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.Loader;
 using System.Text.RegularExpressions;
+using MicrofrontendFramework.Blazor;
 
 namespace BoardgameStore.Server
 {

@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using BoardgameStore.Utils.Routing;
+using MicrofrontendFramework.Blazor.Routing;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace BoardgameStore.Utils
+namespace MicrofrontendFramework.Blazor
 {
     public static class Extensions
     {
