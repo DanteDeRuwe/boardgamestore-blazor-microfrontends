@@ -2,21 +2,24 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Microsoft.AspNetCore.Components;
 
 namespace BoardgameStore.Utils
 {
-    public class ComponentCollection : Dictionary<string, Type>
+    public class ComponentCollection : List<Type>
     {
         public ComponentCollection() : base() { }
-        public ComponentCollection(IDictionary<string, Type> dictionary) : base(dictionary) { }
+        public ComponentCollection(IEnumerable<Type> components) : base(components) { }
 
         public static ComponentCollection FromAssemblies(IEnumerable<Assembly> assemblies)
         {
-            var components = assemblies
-                .SelectMany(a => a.GetTypes().Where(t => t.GetInterfaces().Contains(typeof(IComponent))))
-                .ToList();
-            return new ComponentCollection(components.ToDictionary(c => c.FullName, c => c));
+            var types = assemblies.SelectMany(a => a.GetTypes()).ToList();
+            return FromTypes(types);
+        }
+
+        public static ComponentCollection FromTypes(IEnumerable<Type> types)
+        {
+            var components = types.Where(t => t.GetInterfaces().Contains(typeof(Microsoft.AspNetCore.Components.IComponent)));
+            return new ComponentCollection(components);
         }
     }
 }

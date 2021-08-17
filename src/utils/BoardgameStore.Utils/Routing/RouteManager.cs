@@ -18,7 +18,6 @@ namespace BoardgameStore.Utils.Routing
         public void Initialize()
         {
             var pageComponentTypes = _components
-                .Select(c => c.Value)
                 .Where(c => c.GetCustomAttributes(typeof(RouteAttribute), false).Length > 0);
 
             Routes = pageComponentTypes
