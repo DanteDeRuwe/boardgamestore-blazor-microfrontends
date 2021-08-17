@@ -5,9 +5,12 @@
 
 @if (_game is null)
 {
-    <p>Woops, there is no game here. <a href="">Go back home.</a></p>
+    <div class="card container p-5">
+        <p>Woops, there is no game here. <a href="">Go back home.</a></p>
+    </div>
     return;
 }
+
 <div class="card container p-5">
     <h3 class="mb-5">Details for @_game.Name</h3>
 
