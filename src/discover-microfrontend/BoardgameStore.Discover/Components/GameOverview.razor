@@ -1,6 +1,8 @@
 ﻿@using BoardgameStore.Discover.Repositories
 @inject IGameRepository GameRepository
 
+@attribute [Fragment("homepage")]
+
 <div class="container-fluid d-flex flex-wrap">
         @foreach (var game in GameRepository.GetAll())
         {

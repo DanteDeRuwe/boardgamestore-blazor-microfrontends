@@ -14,4 +14,8 @@
         <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.4" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\..\utils\BoardgameStore.Utils\BoardgameStore.Utils.csproj" />
+    </ItemGroup>
+
 </Project>

@@ -10,10 +10,9 @@ namespace BoardgameStore.Utils
         public ComponentCollection() : base() { }
         public ComponentCollection(IEnumerable<Type> components) : base(components) { }
 
-        public static ComponentCollection FromAssemblies(IEnumerable<Assembly> assemblies)
+        public static ComponentCollection FromAssembly(Assembly assembly)
         {
-            var types = assemblies.SelectMany(a => a.GetTypes()).ToList();
-            return FromTypes(types);
+            return FromTypes(assembly.GetTypes());
         }
 
         public static ComponentCollection FromTypes(IEnumerable<Type> types)

@@ -13,24 +13,29 @@ namespace BoardgameStore.Utils
         {
             // Add the route manager for pages
             services.AddScoped<RouteManager>();
-            services.AddScoped<ComponentCollection>(_ => ComponentCollection.FromAssemblies(assemblies));
-            services.AddMicrofrontendsDependencyInjection(assemblies);
-        }
 
-        private static void AddMicrofrontendsDependencyInjection(
-            this IServiceCollection services,
-            IEnumerable<Assembly> assemblies)
-        {
+            var componentCollection = new ComponentCollection();
+
             foreach (var assembly in assemblies)
             {
-                var configureServicesMethod = assembly
-                    .GetTypes()
-                    .FirstOrDefault(x => x.Name.Equals("Microfrontend", StringComparison.Ordinal))
-                    ?.GetMethod("ConfigureServices", BindingFlags.Public | BindingFlags.Static, null,
-                        new[] { typeof(IServiceCollection) }, null);
-
-                configureServicesMethod?.Invoke(null, new[] { services });
+                componentCollection.AddRange(ComponentCollection.FromAssembly(assembly));
+                services.ConfigureMicrofrontend(assembly);
             }
+
+            services.AddScoped<ComponentCollection>(_ => componentCollection);
+            var fragmentMap = FragmentMap.FromComponents(componentCollection);
+            services.AddScoped<FragmentMap>(_ => fragmentMap);
+        }
+
+        private static void ConfigureMicrofrontend(this IServiceCollection services, Assembly assembly)
+        {
+            var configureServicesMethod = assembly
+                .GetTypes()
+                .FirstOrDefault(x => x.Name.Equals("Microfrontend", StringComparison.Ordinal))
+                ?.GetMethod("ConfigureServices", BindingFlags.Public | BindingFlags.Static, null,
+                    new[] { typeof(IServiceCollection) }, null);
+
+            configureServicesMethod?.Invoke(null, new[] { services });
         }
     }
 }
