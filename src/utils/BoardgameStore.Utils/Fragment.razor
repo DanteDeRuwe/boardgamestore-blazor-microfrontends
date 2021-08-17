@@ -1,10 +1,14 @@
-﻿@inject FragmentMap FragmentMap
+﻿@using System.Collections.Immutable
+@inject FragmentMap FragmentMap
 @{
-    if (Component is null) return;
+    if (Components is null) return;
     RenderFragment fragment = renderTreeBuilder =>
     {
-        renderTreeBuilder.OpenComponent(0, Component);
-        renderTreeBuilder.CloseComponent();
+        for (var i = 0; i < Components.Length; i++)
+        {
+            renderTreeBuilder.OpenComponent(i, Components[i]);
+            renderTreeBuilder.CloseComponent();
+        }
     };
     @fragment
 }
@@ -14,11 +18,12 @@
     [Parameter]
     public string Name { get; set; }
 
-    private Type Component { get; set; }
+    private Type[] Components { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
-        Component = FragmentMap[Name];
+        Components = FragmentMap[Name].ToArray();
     }
+
 }

@@ -5,15 +5,28 @@ using System.Reflection;
 
 namespace BoardgameStore.Utils
 {
-    public class FragmentMap : Dictionary<string, Type>
+    public class FragmentMap : Dictionary<string, ComponentCollection>
     {
         public FragmentMap() { }
-        public FragmentMap(IDictionary<string, Type> fragmentMap) : base(fragmentMap) { }
+        public FragmentMap(IDictionary<string, ComponentCollection> dict) : base(dict) { }
 
-        public static FragmentMap FromComponents(IEnumerable<Type> components)
+        public static FragmentMap FromComponents(ComponentCollection components)
         {
-            var dictionary = components.ToDictionary(GetFragmentName, c => c);
-            return new FragmentMap(dictionary);
+            var map = new FragmentMap();
+            foreach (var component in components)
+            {
+                var name = GetFragmentName(component);
+                if (map.ContainsKey(name))
+                {
+                    map[name].Add(component);
+                }
+                else
+                {
+                    map[name] = new ComponentCollection(new[] { component });
+                }
+            }
+
+            return map;
         }
 
         private static string GetFragmentName(Type component)
