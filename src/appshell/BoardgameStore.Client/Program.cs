@@ -33,7 +33,7 @@ namespace BoardgameStore.Client
 
         private static async Task<IEnumerable<Assembly>> LoadAssembliesAsync(HttpClient client, bool isDevelopment = true)
         {
-            var filePaths = await client.GetFromJsonAsync<string[]>($"/api/assemblies");
+            var filePaths = await client.GetFromJsonAsync<string[]>("/api/assemblies");
             var dllPaths = filePaths?.Where(r => r.EndsWith(".dll"));
 
             var clientAssembly = Assembly.GetAssembly(typeof(App));

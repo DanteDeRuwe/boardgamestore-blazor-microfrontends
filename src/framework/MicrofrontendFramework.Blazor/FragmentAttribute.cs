@@ -2,6 +2,7 @@
 
 namespace MicrofrontendFramework.Blazor
 {
+    [AttributeUsage(AttributeTargets.Class)]
     public sealed class FragmentAttribute : Attribute
     {
         public string SlotName { get; private set; }

@@ -66,6 +66,7 @@ namespace MicrofrontendFramework.Blazor.Routing
         public void Dispose()
         {
             NavigationManager.LocationChanged -= HandleLocationChanged;
+            GC.SuppressFinalize(this);
         }
 
         private void HandleLocationChanged(object sender, LocationChangedEventArgs args)
@@ -96,7 +97,7 @@ namespace MicrofrontendFramework.Blazor.Routing
             _renderHandle.Render(Found(routeData));
         }
 
-        private Dictionary<string, object> ParseQueryString(string uri)
+        private static Dictionary<string, object> ParseQueryString(string uri)
         {
             if (!uri.Contains("?")) return new Dictionary<string, object>();
 

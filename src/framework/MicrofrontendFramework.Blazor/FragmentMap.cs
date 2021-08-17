@@ -7,7 +7,7 @@ namespace MicrofrontendFramework.Blazor
 {
     public class FragmentMap : Dictionary<string, ComponentCollection>
     {
-        public FragmentMap() { }
+        public FragmentMap() : base(){ }
         public FragmentMap(IDictionary<string, ComponentCollection> dict) : base(dict) { }
 
         public static FragmentMap FromComponents(ComponentCollection components)

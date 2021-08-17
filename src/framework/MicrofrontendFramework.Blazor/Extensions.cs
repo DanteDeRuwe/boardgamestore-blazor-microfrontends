@@ -35,7 +35,7 @@ namespace MicrofrontendFramework.Blazor
                 ?.GetMethod("ConfigureServices", BindingFlags.Public | BindingFlags.Static, null,
                     new[] { typeof(IServiceCollection) }, null);
 
-            configureServicesMethod?.Invoke(null, new[] { services });
+            configureServicesMethod?.Invoke(null, new object[] { services });
         }
     }
 }
