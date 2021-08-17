@@ -21,7 +21,6 @@ namespace MicrofrontendFramework.Blazor.Routing
         [Parameter] public RenderFragment NotFound { get; set; }
         [Parameter] public RenderFragment<RouteData> Found { get; set; }
 
-
         // Make sure we can implement the IComponent interface
         public void Attach(RenderHandle renderHandle)
         {
@@ -35,24 +34,16 @@ namespace MicrofrontendFramework.Blazor.Routing
         {
             parameters.SetParameterProperties(this);
 
-            if (Found is null)
-            {
-                throw new InvalidOperationException(
-                    $"The {nameof(DynamicRouter)} component requires a value for the parameter {nameof(Found)}.");
-            }
-
-            if (NotFound is null)
-            {
-                throw new InvalidOperationException(
-                    $"The {nameof(DynamicRouter)} component requires a value for the parameter {nameof(NotFound)}.");
-            }
+            _ = Found ?? throw new InvalidOperationException(
+                $"The {nameof(DynamicRouter)} component requires a value for the parameter {nameof(Found)}.");
+            _ = NotFound ?? throw new InvalidOperationException(
+                $"The {nameof(DynamicRouter)} component requires a value for the parameter {nameof(NotFound)}.");
 
             RouteManager.Initialize();
             Refresh();
 
             return Task.CompletedTask;
         }
-
 
         //Set up navigation interception
         public Task OnAfterRenderAsync()
@@ -80,21 +71,11 @@ namespace MicrofrontendFramework.Blazor.Routing
             var relativeUri = NavigationManager.ToBaseRelativePath(_location);
             var parameters = ParseQueryString(relativeUri);
 
-            var segments = Regex.Replace(relativeUri, @"\?.*?$", "")
-                .Trim()
-                .Split('/', StringSplitOptions.RemoveEmptyEntries);
-            
-            var matchResult = RouteManager.Match(segments);
+            var segments = RouteParser.GetSegments(relativeUri);
+            var (isMatch, matchedRoute) = RouteManager.Match(segments);
 
-            if (!matchResult.IsMatch)
-            {
-                _renderHandle.Render(NotFound);
-                return;
-            }
-
-            var routeData = new RouteData(matchResult.MatchedRoute.Handler, parameters);
-
-            _renderHandle.Render(Found(routeData));
+            var renderFragment = isMatch ? Found(new RouteData(matchedRoute.Handler, parameters)) : NotFound;
+            _renderHandle.Render(renderFragment);
         }
 
         private static Dictionary<string, object> ParseQueryString(string uri)

@@ -10,16 +10,11 @@ namespace MicrofrontendFramework.Blazor.Routing
 
         public MatchResult Match(string[] segments)
         {
-            if (segments.Length != UriSegments.Length)
-            {
-                return MatchResult.NoMatch();
-            }
-
-            return UriSegments
+            var isMatch = segments.Length == UriSegments.Length && !UriSegments
                 .Where((t, i) => string.Compare(segments[i], t, StringComparison.OrdinalIgnoreCase) != 0)
-                .Any()
-                ? MatchResult.NoMatch()
-                : MatchResult.Match(this);
+                .Any();
+            
+            return new MatchResult(isMatch, isMatch ? this : null);
         }
     }
 }

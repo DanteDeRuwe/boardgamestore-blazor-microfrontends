@@ -1,6 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Reflection;
-using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Components;
 
 namespace MicrofrontendFramework.Blazor.Routing
@@ -17,31 +17,16 @@ namespace MicrofrontendFramework.Blazor.Routing
 
         public void Initialize()
         {
-            var pageComponentTypes = _components
-                .Where(c => c.GetCustomAttributes(typeof(RouteAttribute), false).Length > 0);
-
-            Routes = pageComponentTypes
-                .Select(pageType =>
-                {
-                    var routeTemplate = pageType.GetCustomAttribute<RouteAttribute>()!.Template;
-                    routeTemplate = routeTemplate.StartsWith("/") ? routeTemplate[1..] : routeTemplate;
-                    routeTemplate =
-                        Regex.Replace(routeTemplate, @"\?.*?$", ""); //TODO supports only querystrings for now
-                    return new Route
-                    {
-                        UriSegments = routeTemplate.Split('/'),
-                        Handler = pageType
-                    };
-                })
-                .ToArray();
+            var pageComponentTypes = _components.Where(c => c.GetCustomAttributes<RouteAttribute>(false).Any());
+            Routes = pageComponentTypes.Select(GetRouteFromPageComponent).ToArray();
         }
 
         public MatchResult Match(string[] segments)
         {
-            if (segments.Length == 0)
+            if (RouteParser.IsIndex(segments))
             {
-                var indexRoute = Routes.SingleOrDefault(x => x.UriSegments.SequenceEqual(new[] { "" }));
-                return indexRoute is not null ? MatchResult.Match(indexRoute) : MatchResult.NoMatch();
+                var indexRoute = Routes.SingleOrDefault(r => RouteParser.IsIndex(r.UriSegments));
+                return new MatchResult(indexRoute is not null, indexRoute);
             }
 
             foreach (var route in Routes)
@@ -50,7 +35,14 @@ namespace MicrofrontendFramework.Blazor.Routing
                 if (matchResult.IsMatch) return matchResult;
             }
 
-            return MatchResult.NoMatch();
+            return new MatchResult(false);
+        }
+        
+        private static Route GetRouteFromPageComponent(Type pageComponent)
+        {
+            var routeTemplate = pageComponent.GetCustomAttribute<RouteAttribute>(false)!.Template;
+            var segments = RouteParser.GetSegments(routeTemplate);
+            return new Route { UriSegments = segments, Handler = pageComponent };
         }
     }
 }
