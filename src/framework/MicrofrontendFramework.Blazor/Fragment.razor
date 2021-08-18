@@ -7,6 +7,10 @@
         for (var i = 0; i < Components.Length; i++)
         {
             renderTreeBuilder.OpenComponent(i, Components[i]);
+            foreach (var (key, value) in Attributes)
+            {
+                renderTreeBuilder.AddAttribute(i, key, value);
+            }
             renderTreeBuilder.CloseComponent();
         }
     };
@@ -17,6 +21,9 @@
 
     [Parameter]
     public string Name { get; set; }
+
+    [Parameter]
+    public Dictionary<string, object> Attributes { get; set; } = new();
 
     private Type[] Components { get; set; }
 
