@@ -30,7 +30,7 @@
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
-        Components = FragmentMap[Name].ToArray();
+        Components = FragmentMap.ContainsKey(Name) ? FragmentMap[Name].ToArray() : new Type[] { };
     }
 
 }
