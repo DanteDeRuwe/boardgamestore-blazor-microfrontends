@@ -1,0 +1,25 @@
+﻿@using BoardgameStore.Order.Repositories
+
+@attribute [Fragment("game-actions")]
+
+@inject IGameRepository GameRepository
+@inject ICartRepository CartRepository
+
+<button class="btn btn-outline-success" @onclick="AddToCart">
+    <span class="oi oi-cart" aria-hidden="true"></span>
+    Add to cart
+</button>
+
+@code{
+
+    [Parameter] 
+    public int GameId { get; set; }
+
+    private void AddToCart(MouseEventArgs args)
+    {
+        var game = GameRepository.GetBy(GameId);
+        CartRepository.AddGame(game);
+    }
+    
+
+}

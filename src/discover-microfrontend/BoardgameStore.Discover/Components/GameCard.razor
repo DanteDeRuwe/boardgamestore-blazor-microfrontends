@@ -1,13 +1,19 @@
 ﻿@using BoardgameStore.Discover.Entities
-<a href=@($"/game?id={Game.Id}") style="text-decoration: inherit; color: inherit;">
-    <div class="card mr-4 mb-4 p-3 shadow" style="width: 18rem; border-bottom: 4px solid #35AC87;">
+
+<div class="card mr-4 mb-4 p-3 shadow" style="width: 18rem; border-bottom: 4px solid #35AC87;">
+    <a href=@($"/game?id={Game.Id}") style="text-decoration: inherit; color: inherit;">
         <div class="card-img-top" style="background: url('@Game.ImageUrl') no-repeat center center; background-size: contain; height: 200px; width: 100%"></div>
         <div class="card-body">
             <h5 class="card-title">@Game.Name</h5>
             <b>@Game.Price.ToString("C")</b>
         </div>
+    </a>
+    <div class="card-footer">
+        @{ var attributes = new Dictionary<string, object>() { { "GameId", Game.Id } }; }
+        <Fragment Name="game-actions" Attributes="attributes"/>
     </div>
-</a>
+</div>
+
 
 @code {
 

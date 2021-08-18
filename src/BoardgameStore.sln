@@ -19,6 +19,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicrofrontendFramework.Blaz
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "framework", "framework", "{19B2F26D-116A-4800-A55F-49E56A40E612}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "order-microfrontend", "order-microfrontend", "{84DB3F3D-8B3E-4770-934F-71682E66D339}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoardgameStore.Order", "order-microfrontend\BoardgameStore.Order\BoardgameStore.Order.csproj", "{22C06127-580A-4031-A242-7F3028338D24}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +49,10 @@ Global
 		{EECE0CFA-59D9-45CD-8D5D-A974B4E13A80}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EECE0CFA-59D9-45CD-8D5D-A974B4E13A80}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EECE0CFA-59D9-45CD-8D5D-A974B4E13A80}.Release|Any CPU.Build.0 = Release|Any CPU
+		{22C06127-580A-4031-A242-7F3028338D24}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{22C06127-580A-4031-A242-7F3028338D24}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{22C06127-580A-4031-A242-7F3028338D24}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{22C06127-580A-4031-A242-7F3028338D24}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -58,5 +66,6 @@ Global
 		{37D555D3-114D-468D-A82E-B86F42647C1C} = {8449F8C1-3B9E-4E04-8653-31D83C6AFE3C}
 		{B576315C-86B6-40E8-8030-383068B7D4B4} = {55018DC4-D5C4-4C78-8B7E-B2ED87209846}
 		{EECE0CFA-59D9-45CD-8D5D-A974B4E13A80} = {19B2F26D-116A-4800-A55F-49E56A40E612}
+		{22C06127-580A-4031-A242-7F3028338D24} = {84DB3F3D-8B3E-4770-934F-71682E66D339}
 	EndGlobalSection
 EndGlobal
