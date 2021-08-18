@@ -1,0 +1,36 @@
+﻿@page "/cart"
+
+@using BoardgameStore.Order.Repositories
+@inject ICartRepository CartRepository
+
+<h3>Cart</h3>
+
+<div class="container card">
+    <table class="table">
+        <thead>
+        <tr>
+            <th></th>
+            <th>Item</th>
+            <th>Price</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var game in CartRepository.Get().Games)
+        {
+            <tr>
+                <td style="width: 20px">
+                    <div style="width:inherit; height: 20px; background: url('@game.ImageUrl') no-repeat center center; background-size: cover; border-radius: 5px"></div>
+                </td>
+                <td>
+                    <a href="/game?id=@game.Id">@game.Name</a>
+                </td>
+                <td>@game.Price.ToString("c")</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>
+
+@code {
+
+}
