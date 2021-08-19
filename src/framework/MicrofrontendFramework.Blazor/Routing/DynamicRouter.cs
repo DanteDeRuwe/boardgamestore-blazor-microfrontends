@@ -69,25 +69,12 @@ namespace MicrofrontendFramework.Blazor.Routing
         private void Refresh()
         {
             var relativeUri = NavigationManager.ToBaseRelativePath(_location);
-            var parameters = ParseQueryString(relativeUri);
 
-            var segments = RouteParser.GetSegments(relativeUri);
+            var (segments, parameters) = UriParser.Parse(relativeUri);
             var (isMatch, matchedRoute) = RouteManager.Match(segments);
 
-            var renderFragment = isMatch ? Found(new RouteData(matchedRoute.Handler, parameters)) : NotFound;
-            _renderHandle.Render(renderFragment);
-        }
-
-        private static Dictionary<string, object> ParseQueryString(string uri)
-        {
-            if (!uri.Contains("?")) return new Dictionary<string, object>();
-
-            var parameterStrings = uri[(uri.IndexOf("?", StringComparison.Ordinal) + 1)..]
-                .Split('&', StringSplitOptions.RemoveEmptyEntries);
-
-            return parameterStrings
-                .Select(p => p.Split('=', StringSplitOptions.RemoveEmptyEntries))
-                .ToDictionary(p => p[0], p => p[1] as object);
+            var routeData = new RouteData(matchedRoute.Handler, parameters);
+            _renderHandle.Render(isMatch ? Found(routeData) : NotFound);
         }
     }
 }

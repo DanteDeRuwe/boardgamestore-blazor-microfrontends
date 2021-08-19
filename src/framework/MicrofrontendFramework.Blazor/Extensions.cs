@@ -9,13 +9,14 @@ namespace MicrofrontendFramework.Blazor
 {
     public static class Extensions
     {
+        /// <summary> Registers a list of microfrontend assemblies into a service collection, taking care of each microfrontend's DI</summary>
+        /// <param name="services">The service collection to register microfrontends onto</param>
+        /// <param name="assemblies">The microfrontend assemblies</param>
         public static void AddMicrofrontends(this IServiceCollection services, IEnumerable<Assembly> assemblies)
         {
-            // Add the route manager for pages
             services.AddScoped<RouteManager>();
 
             var componentCollection = new ComponentCollection();
-
             foreach (var assembly in assemblies)
             {
                 componentCollection.AddRange(ComponentCollection.FromAssembly(assembly));
@@ -23,8 +24,7 @@ namespace MicrofrontendFramework.Blazor
             }
 
             services.AddScoped<ComponentCollection>(_ => componentCollection);
-            var fragmentMap = FragmentMap.FromComponents(componentCollection);
-            services.AddScoped<FragmentMap>(_ => fragmentMap);
+            services.AddScoped<FragmentMap>(_ => FragmentMap.FromComponents(componentCollection));
         }
 
         private static void ConfigureMicrofrontend(this IServiceCollection services, Assembly assembly)

@@ -23,12 +23,6 @@ namespace MicrofrontendFramework.Blazor.Routing
 
         public MatchResult Match(string[] segments)
         {
-            if (RouteParser.IsIndex(segments))
-            {
-                var indexRoute = Routes.SingleOrDefault(r => RouteParser.IsIndex(r.UriSegments));
-                return new MatchResult(indexRoute is not null, indexRoute);
-            }
-
             foreach (var route in Routes)
             {
                 var matchResult = route.Match(segments);
@@ -37,11 +31,11 @@ namespace MicrofrontendFramework.Blazor.Routing
 
             return new MatchResult(false);
         }
-        
+
         private static Route GetRouteFromPageComponent(Type pageComponent)
         {
             var routeTemplate = pageComponent.GetCustomAttribute<RouteAttribute>(false)!.Template;
-            var segments = RouteParser.GetSegments(routeTemplate);
+            var segments = UriParser.GetSegments(routeTemplate);
             return new Route { UriSegments = segments, Handler = pageComponent };
         }
     }
