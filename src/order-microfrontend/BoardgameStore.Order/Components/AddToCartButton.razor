@@ -1,24 +1,36 @@
 ﻿@using BoardgameStore.Order.Repositories
+@using BoardgameStore.Order.Entities
 
 @attribute [Fragment("game-actions")]
 
 @inject IGameRepository GameRepository
 @inject ICartRepository CartRepository
 
-<button class="btn btn-outline-success" @onclick="AddToCart">
-    <span class="oi oi-cart" aria-hidden="true"></span>
-    Add to cart
-</button>
+@if (!CartRepository.HasGame(_game))
+{
+    <button class="btn btn-outline-success" @onclick="_ => CartRepository.AddGame(_game)">
+        <span class="oi oi-cart" aria-hidden="true"></span>
+        Add to cart
+    </button>
+}
+else
+{
+    <p class="py-2 mb-0 text-success">
+        <span class="oi oi-check" aria-hidden="true"></span>
+        Added to cart
+    </p>
+}
 
 @code{
 
-    [Parameter] 
+    [Parameter]
     public int GameId { get; set; }
 
-    private void AddToCart(MouseEventArgs args)
+    private Game _game;
+
+    protected override void OnInitialized()
     {
-        var game = GameRepository.GetBy(GameId);
-        CartRepository.AddGame(game);
+        base.OnInitialized();
+        _game = GameRepository.GetBy(GameId);
     }
-    
 }

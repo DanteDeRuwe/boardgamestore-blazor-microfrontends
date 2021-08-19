@@ -1,11 +1,22 @@
 ﻿@page "/cart"
 
 @using BoardgameStore.Order.Repositories
+@using BoardgameStore.Order.Entities
+
 @inject ICartRepository CartRepository
+@inject NavigationManager NavigationManager
 
-<h3>Cart</h3>
 
-<div class="container card">
+
+@if (!_games.Any())
+{
+    <div class="container card p-5">
+        <p>No games yet. <a href="">Browse for games!</a></p>
+    </div>
+    return;
+}
+
+<div class="container card p-5 d-flex flex-column">
     <table class="table">
         <thead>
         <tr>
@@ -15,7 +26,7 @@
         </tr>
         </thead>
         <tbody>
-        @foreach (var game in CartRepository.Get().Games)
+        @foreach (var game in _games)
         {
             <tr>
                 <td style="width: 20px">
@@ -29,8 +40,28 @@
         }
         </tbody>
     </table>
+
+    <button class="btn btn-success" @onclick="Order">Order!</button>
+
 </div>
 
+
 @code {
+
+    private IEnumerable<Game> _games;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        _games = CartRepository.Get().Games;
+    }
+
+    private void Order()
+    {
+        if (!_games.Any()) return;
+
+        CartRepository.ClearCart();
+        NavigationManager.NavigateTo("/orderconfirmation");
+    }
 
 }
