@@ -1,4 +1,6 @@
-<DynamicRouter>
+@inject AssemblyCollection _assemblies
+
+<Router AppAssembly="@typeof(App).Assembly" AdditionalAssemblies="_assemblies">
     <Found Context="routeData">
         <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
     </Found>
@@ -7,4 +9,4 @@
             <p>Sorry, there's nothing at this address.</p>
         </LayoutView>
     </NotFound>
-</DynamicRouter>
+</Router>

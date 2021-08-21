@@ -22,9 +22,8 @@ namespace BoardgameStore.Client
         {
             var filePaths = await client.GetFromJsonAsync<string[]>(ApiRoute);
             var dllPaths = filePaths?.Where(f => f.EndsWith(LibraryExtension)) ?? Enumerable.Empty<string>();
-
-            var clientAssembly = Assembly.GetAssembly(typeof(App));
-            var assemblies = new List<Assembly> { clientAssembly };
+            
+            var assemblies = new List<Assembly>();
 
             foreach (var dllPath in dllPaths)
             {
