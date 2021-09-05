@@ -72,9 +72,8 @@ namespace MicrofrontendFramework.Blazor.Routing
 
             var (segments, parameters) = UriParser.Parse(relativeUri);
             var (isMatch, matchedRoute) = RouteManager.Match(segments);
-
-            var routeData = new RouteData(matchedRoute.Handler, parameters);
-            _renderHandle.Render(isMatch ? Found(routeData) : NotFound);
+            
+            _renderHandle.Render(isMatch ? Found(new RouteData(matchedRoute.Handler, parameters)) : NotFound);
         }
     }
 }
