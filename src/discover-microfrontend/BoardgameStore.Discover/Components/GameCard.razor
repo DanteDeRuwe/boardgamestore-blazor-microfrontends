@@ -8,7 +8,7 @@
             <b>@Game.Price.ToString("C")</b>
         </div>
     </a>
-    <div class="card-footer">
+    <div>
         @{ var attributes = new Dictionary<string, object>() { { "GameId", Game.Id } }; }
         <Fragment Name="game-actions" Attributes="attributes"/>
     </div>
