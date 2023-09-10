@@ -33,11 +33,11 @@ app.UseHttpsRedirection();
 app.UseBlazorFrameworkFiles();
 app.UseStaticFiles();
 
-// Make sure we serve the CDN files
+// Make sure we serve the microfrontend files
 app.UseStaticFiles(new StaticFileOptions
 {
-    FileProvider = new PhysicalFileProvider(Path.Combine(env.ContentRootPath, "CDN")),
-    RequestPath = "/CDN",
+    FileProvider = new PhysicalFileProvider(Path.Combine(env.ContentRootPath, "Microfrontends")),
+    RequestPath = "/Microfrontends",
     ServeUnknownFileTypes = true
 });
 
@@ -45,12 +45,7 @@ app.UseRouting();
 
 app.MapRazorPages();
 
-app.MapGet("/api/assemblies", () =>
-{
-    var files = Directory.GetFiles(@"CDN");
-    var relativeUri = files.Select(f => $@"/{f.Replace('\\', '/')}");
-    return Results.Ok(relativeUri);
-});
+app.MapGet("/microfrontends", () => Directory.GetFiles("Microfrontends").Select(f => f.Replace('\\', '/')).Select(x => $"/{x}"));
 
 app.MapFallbackToPage("/_Host");
 

@@ -7,7 +7,7 @@ namespace BoardgameStore.Client;
 
 internal static class ClientAssemblyLoader
 {
-    private const string ApiRoute = "/api/assemblies";
+    private const string ApiRoute = "/microfrontends";
     private const string LibraryExtension = ".dll";
     private const string LibraryExtensionPattern = @"\.dll$";
     private const string SymbolsExtension = ".pdb";

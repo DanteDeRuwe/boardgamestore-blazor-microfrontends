@@ -7,14 +7,14 @@ namespace BoardgameStore.Server;
 
 internal static class ServerAssemblyLoader
 {
-    private const string CdnFolder = "CDN";
+    private const string Folder = "Microfrontends";
     private const string LibraryExtension = ".dll";
     private const string LibraryExtensionPattern = @"\.dll$";
     private const string SymbolsExtension = ".pdb";
 
     internal static IEnumerable<Assembly> LoadAssemblies(bool isDevelopment)
     {
-        var filePaths = Directory.GetFiles(CdnFolder);
+        var filePaths = Directory.GetFiles(Folder);
         var dllPaths = filePaths.Where(f => f.EndsWith(LibraryExtension));
 
         var clientAssembly = Assembly.GetAssembly(typeof(App));

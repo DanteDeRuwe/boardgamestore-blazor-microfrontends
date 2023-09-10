@@ -19,13 +19,13 @@
 
   <!-- Artificially simulating the "pushing" of the microfrontends to a CDN -->
   <Target Name="CopyDll" AfterTargets="Build">
-    <RemoveDir Directories="CDN" />
-    <Copy SourceFiles="..\..\discover-microfrontend\BoardgameStore.Discover\bin\Debug\net7.0\BoardgameStore.Discover.dll" DestinationFolder="CDN" OverwriteReadOnlyFiles="true" SkipUnchangedFiles="false" />
-    <Copy SourceFiles="..\..\order-microfrontend\BoardgameStore.Order\bin\Debug\net7.0\BoardgameStore.Order.dll" DestinationFolder="CDN" OverwriteReadOnlyFiles="true" SkipUnchangedFiles="false" />
+    <RemoveDir Directories="Microfrontends" />
+    <Copy SourceFiles="..\..\discover-microfrontend\BoardgameStore.Discover\bin\Debug\net7.0\BoardgameStore.Discover.dll" DestinationFolder="Microfrontends" OverwriteReadOnlyFiles="true" SkipUnchangedFiles="false" />
+    <Copy SourceFiles="..\..\order-microfrontend\BoardgameStore.Order\bin\Debug\net7.0\BoardgameStore.Order.dll" DestinationFolder="Microfrontends" OverwriteReadOnlyFiles="true" SkipUnchangedFiles="false" />
   </Target>
   <Target Name="CopyPdb" AfterTargets="CopyDll" Condition=" '$(Configuration)' == 'Debug' ">
-    <Copy SourceFiles="..\..\discover-microfrontend\BoardgameStore.Discover\bin\Debug\net7.0\BoardgameStore.Discover.pdb" DestinationFolder="CDN" OverwriteReadOnlyFiles="true" SkipUnchangedFiles="false"/>
-    <Copy SourceFiles="..\..\order-microfrontend\BoardgameStore.Order\bin\Debug\net7.0\BoardgameStore.Order.pdb" DestinationFolder="CDN" OverwriteReadOnlyFiles="true" SkipUnchangedFiles="false"/>
+    <Copy SourceFiles="..\..\discover-microfrontend\BoardgameStore.Discover\bin\Debug\net7.0\BoardgameStore.Discover.pdb" DestinationFolder="Microfrontends" OverwriteReadOnlyFiles="true" SkipUnchangedFiles="false" />
+    <Copy SourceFiles="..\..\order-microfrontend\BoardgameStore.Order\bin\Debug\net7.0\BoardgameStore.Order.pdb" DestinationFolder="Microfrontends" OverwriteReadOnlyFiles="true" SkipUnchangedFiles="false" />
   </Target>
 
 </Project>
