@@ -1,10 +1,12 @@
-@using BoardgameStore.Order.Repositories
+﻿@using BoardgameStore.Order.Repositories
 @using BoardgameStore.Order.Entities
+@using BoardgameStore.Order.Context
 
 @attribute [Fragment("game-actions")]
 
 @inject IGameRepository GameRepository
 @inject ICartRepository CartRepository
+@inject CartContext CartContext
 
 @if (!_inCart)
 {
@@ -39,6 +41,7 @@ else
     private void AddGameToCart()
     {
         CartRepository.AddGame(_game);
+        CartContext.CartUpdated.Invoke();
         _inCart = true;
     }
 }

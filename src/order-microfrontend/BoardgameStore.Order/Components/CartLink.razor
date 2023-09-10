@@ -1,15 +1,24 @@
 ﻿@using BoardgameStore.Order.Repositories
+@using BoardgameStore.Order.Context
 
 @attribute [Fragment("top-row-items")]
 
 
 @inject ICartRepository CartRepository;
+@inject CartContext CartContext;
 
 <a href="/cart" class="border-bottom" style="text-decoration: inherit; color: inherit;">
-    <span class="oi oi-cart" aria-hidden="true"></span> 
-    Cart
+    <span class="oi oi-cart" aria-hidden="true"></span>
+    Cart <span class="badge badge-pill badge-success">@CartRepository.ItemCount</span>
 </a>
 
 @code{
+
+
+    protected override void OnInitialized()
+    {
+    // call state has changed to update the UI when context.cartupdated is invoked
+        CartContext.CartUpdated += StateHasChanged;
+    }
 
 }

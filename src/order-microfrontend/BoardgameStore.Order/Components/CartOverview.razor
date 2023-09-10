@@ -1,11 +1,12 @@
-@page "/cart"
+﻿@page "/cart"
 
 @using BoardgameStore.Order.Repositories
 @using BoardgameStore.Order.Entities
+@using BoardgameStore.Order.Context
 
 @inject ICartRepository CartRepository
 @inject NavigationManager NavigationManager
-
+@inject CartContext CartContext
 
 
 @if (!_games.Any())
@@ -61,6 +62,7 @@
         if (!_games.Any()) return;
 
         CartRepository.ClearCart();
+        CartContext.CartUpdated.Invoke();
         NavigationManager.NavigateTo("/orderconfirmation");
     }
 

@@ -442,4 +442,6 @@ $RECYCLE.BIN/
 !.vscode/extensions.json
 
 **/appsettings*.json
-src/appshell/BoardgameStore.Server/CDN/
+
+# The static microfrontend files
+src/appshell/BoardgameStore.Server/Microfrontends/

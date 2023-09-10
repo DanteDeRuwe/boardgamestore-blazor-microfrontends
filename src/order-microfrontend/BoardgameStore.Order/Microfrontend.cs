@@ -1,3 +1,4 @@
+﻿using BoardgameStore.Order.Context;
 using BoardgameStore.Order.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -7,7 +8,7 @@ public class Microfrontend
 {
     public static void ConfigureServices(IServiceCollection services)
     {
-        services.AddScoped<IGameRepository, InMemoryGameRepository>();
+        services.AddSingleton(new CartContext());
         services.AddSingleton<IGameRepository, InMemoryGameRepository>();
         services.AddSingleton<ICartRepository, InMemoryCartRepository>();
     }
