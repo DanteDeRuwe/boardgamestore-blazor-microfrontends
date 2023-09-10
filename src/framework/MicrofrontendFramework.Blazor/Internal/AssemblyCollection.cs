@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Reflection;
+﻿using System.Reflection;
 
-namespace MicrofrontendFramework.Blazor
+namespace MicrofrontendFramework.Blazor.Internal
 {
     public class AssemblyCollection : List<Assembly>
     {

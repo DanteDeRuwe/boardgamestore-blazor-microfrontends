@@ -1,17 +1,19 @@
 ﻿@page "/_Host"
+@using Microsoft.AspNetCore.Components.Web
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
 <!DOCTYPE html>
-<html>
+<html lang="nl-BE">
 
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-    <title>ThesisTest</title>
+    <title>BoardgameStore</title>
     <base href="/"/>
     <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet"/>
     <link href="css/app.css" rel="stylesheet"/>
     <link href="BoardgameStore.Client.styles.css" rel="stylesheet"/>
+    <component type="typeof(HeadOutlet)" render-mode="WebAssemblyPrerendered"/>
 </head>
 
 <body>

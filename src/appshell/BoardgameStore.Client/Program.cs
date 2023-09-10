@@ -1,28 +1,19 @@
-using System;
-using System.Net.Http;
-using System.Threading.Tasks;
+using System.Globalization;
+using BoardgameStore.Client;
 using MicrofrontendFramework.Blazor;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using Microsoft.Extensions.DependencyInjection;
 
-namespace BoardgameStore.Client
-{
-    public static class Program
-    {
-        public static async Task Main(string[] args)
-        {
-            var builder = WebAssemblyHostBuilder.CreateDefault(args);
-            await Configure(builder);
-            await builder.Build().RunAsync();
-        }
+var builder = WebAssemblyHostBuilder.CreateDefault(args);
 
-        private static async Task Configure(WebAssemblyHostBuilder builder)
-        {
-            var client = new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) };
-            builder.Services.AddScoped<HttpClient>(_ => client);
+CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("nl-BE");
+CultureInfo.DefaultThreadCurrentUICulture = new CultureInfo("nl-BE");
+    
+var client = new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) };
+builder.Services.AddScoped<HttpClient>(_ => client);
 
-            var assemblies = await AssemblyLoader.LoadAssembliesAsync(client, builder.HostEnvironment.IsDevelopment());
-            builder.Services.AddMicrofrontends(assemblies);
-        }
-    }
-}
+var assemblies = await ClientAssemblyLoader.LoadAssembliesAsync(client, builder.HostEnvironment.IsDevelopment());
+builder.Services.AddMicrofrontends(assemblies);
+
+var app = builder.Build();
+
+await app.RunAsync();

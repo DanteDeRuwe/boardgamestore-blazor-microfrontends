@@ -1,12 +1,9 @@
-﻿using System.Collections.Generic;
-using BoardgameStore.Order.Entities;
+﻿using BoardgameStore.Order.Entities;
 
-namespace BoardgameStore.Order.Repositories
+namespace BoardgameStore.Order.Repositories;
+
+public interface IGameRepository
 {
-    public interface IGameRepository
-    {
-        public IEnumerable<Game> GetAll();
-        public Game GetBy(int id);
-    }
+    public IEnumerable<Game> GetAll();
+    public Game GetBy(int id);
 }
-

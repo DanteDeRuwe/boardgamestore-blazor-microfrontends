@@ -1,21 +1,12 @@
 @using System.Collections.Immutable
+@using System.Reflection
+@using MicrofrontendFramework.Blazor.Internal
+@using Microsoft.Extensions.Logging
 @inject FragmentMap FragmentMap
-@{
-    if (Components is null) return;
-    RenderFragment fragment = renderTreeBuilder =>
-    {
-        for (var i = 0; i < Components.Length; i++)
-        {
-            renderTreeBuilder.OpenComponent(i, Components[i]);
-            foreach (var (key, value) in Attributes)
-            {
-                renderTreeBuilder.AddAttribute(i, key, value);
-            }
-            renderTreeBuilder.CloseComponent();
-        }
-    };
-    @fragment
-}
+
+
+@RenderFragment
+
 
 @code {
 
@@ -25,12 +16,31 @@
     [Parameter]
     public Dictionary<string, object> Attributes { get; set; } = new();
 
-    private Type[] Components { get; set; }
+    private Type[] Components { get; set; } = null!;
+
+    private RenderFragment RenderFragment => renderTreeBuilder =>
+    {
+        for (var i = 0; i < Components.Length; i++)
+        {
+            var component = Components[i];
+            var componentProps = component.GetProperties(BindingFlags.Public | BindingFlags.Instance).Select(p => p.Name).ToImmutableArray();
+            
+            renderTreeBuilder.OpenComponent(i, component);
+            foreach (var (key, value) in Attributes)
+            {
+                if (componentProps.Contains(key))
+                {
+                    renderTreeBuilder.AddAttribute(i, key, value);
+                }
+            }
+            renderTreeBuilder.CloseComponent();
+        }
+    };
 
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
-        Components = FragmentMap.ContainsKey(Name) ? FragmentMap[Name].ToArray() : null;
+        Components = FragmentMap.Get(Name).ToArray();
     }
 
 }
