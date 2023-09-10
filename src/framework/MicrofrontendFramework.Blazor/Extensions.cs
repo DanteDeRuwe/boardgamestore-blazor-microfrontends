@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using MicrofrontendFramework.Blazor.Routing;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace MicrofrontendFramework.Blazor
@@ -14,8 +13,8 @@ namespace MicrofrontendFramework.Blazor
         /// <param name="assemblies">The microfrontend assemblies</param>
         public static void AddMicrofrontends(this IServiceCollection services, IEnumerable<Assembly> assemblies)
         {
-            services.AddScoped<RouteManager>();
-
+            services.AddScoped<AssemblyCollection>(_ => new AssemblyCollection(assemblies));
+            
             var componentCollection = new ComponentCollection();
             foreach (var assembly in assemblies)
             {

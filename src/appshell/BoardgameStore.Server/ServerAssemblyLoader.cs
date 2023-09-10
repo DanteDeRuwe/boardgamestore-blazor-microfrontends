@@ -18,9 +18,8 @@ namespace BoardgameStore.Server
         internal static IEnumerable<Assembly> LoadAssemblies()
         {
             var dllPaths = Directory.GetFiles(CdnFolder).Where(f => f.EndsWith(LibraryExtension));
-
-            var clientAssembly = Assembly.GetAssembly(typeof(App));
-            var assemblies = new List<Assembly> { clientAssembly };
+            
+            var assemblies = new List<Assembly>();
 
             foreach (var dllPath in dllPaths)
             {
