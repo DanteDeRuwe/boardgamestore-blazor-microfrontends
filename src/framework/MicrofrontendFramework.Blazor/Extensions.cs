@@ -11,10 +11,11 @@ public static class Extensions
     /// <param name="assemblies">The microfrontend assemblies</param>
     public static void AddMicrofrontends(this IServiceCollection services, IEnumerable<Assembly> assemblies)
     {
-        services.AddSingleton(new AssemblyCollection(assemblies));
-        
+        var assemblyCollection = new AssemblyCollection(assemblies);
+        services.AddSingleton(assemblyCollection);
+
         var componentCollection = new ComponentCollection();
-        foreach (var assembly in assemblies)
+        foreach (var assembly in assemblyCollection)
         {
             componentCollection.AddRange(ComponentCollection.FromAssembly(assembly));
             services.ConfigureMicrofrontend(assembly);
@@ -24,13 +25,15 @@ public static class Extensions
         services.AddScoped<FragmentMap>(_ => FragmentMap.FromComponents(componentCollection));
     }
 
+    private const string MicrofrontendEntrypoint = "Microfrontend";
+    private const string ConfigureServices = "ConfigureServices";
+    
     private static void ConfigureMicrofrontend(this IServiceCollection services, Assembly assembly)
     {
         var configureServicesMethod = assembly
             .GetTypes()
-            .FirstOrDefault(x => x.Name.Equals("Microfrontend", StringComparison.Ordinal))
-            ?.GetMethod("ConfigureServices", BindingFlags.Public | BindingFlags.Static, null,
-                new[] { typeof(IServiceCollection) }, null);
+            .FirstOrDefault(x => x.Name.Equals(MicrofrontendEntrypoint, StringComparison.Ordinal))
+            ?.GetMethod(ConfigureServices, BindingFlags.Public | BindingFlags.Static, null, new[] { typeof(IServiceCollection) }, null);
 
         configureServicesMethod?.Invoke(null, new object[] { services });
     }

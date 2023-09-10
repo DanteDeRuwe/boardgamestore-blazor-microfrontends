@@ -3,7 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace BoardgameStore.Discover;
 
-public class Microfrontend
+public static class Microfrontend
 {
     public static void ConfigureServices(IServiceCollection services)
     {
