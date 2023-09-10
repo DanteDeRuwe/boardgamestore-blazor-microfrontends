@@ -7,6 +7,6 @@ public class Microfrontend
 {
     public static void ConfigureServices(IServiceCollection services)
     {
-        services.AddScoped<IGameRepository, InMemoryGameRepository>();
+        services.AddSingleton<IGameRepository, InMemoryGameRepository>();
     }
 }

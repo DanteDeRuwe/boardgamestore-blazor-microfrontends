@@ -1,4 +1,4 @@
-﻿@page "/cart"
+@page "/cart"
 
 @using BoardgameStore.Order.Repositories
 @using BoardgameStore.Order.Entities
@@ -53,7 +53,7 @@
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        _games = CartRepository.Get().Games;
+        _games = CartRepository.GetGames();
     }
 
     private void Order()

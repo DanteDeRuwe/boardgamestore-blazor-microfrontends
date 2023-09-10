@@ -1,4 +1,4 @@
-﻿@using BoardgameStore.Order.Repositories
+@using BoardgameStore.Order.Repositories
 @using BoardgameStore.Order.Entities
 
 @attribute [Fragment("game-actions")]
@@ -6,7 +6,7 @@
 @inject IGameRepository GameRepository
 @inject ICartRepository CartRepository
 
-@if (!CartRepository.HasGame(_game))
+@if (!_inCart)
 {
     <button class="btn btn-outline-success" @onclick="AddGameToCart">
         <span class="oi oi-cart" aria-hidden="true"></span>
@@ -26,16 +26,19 @@ else
     [Parameter]
     public int GameId { get; set; }
 
-    private Game _game;
+    private Game _game = default!;
+    private bool _inCart;
 
     protected override void OnInitialized()
     {
         base.OnInitialized();
         _game = GameRepository.GetBy(GameId);
+        _inCart = CartRepository.HasGame(_game);
     }
 
     private void AddGameToCart()
     {
         CartRepository.AddGame(_game);
+        _inCart = true;
     }
 }
