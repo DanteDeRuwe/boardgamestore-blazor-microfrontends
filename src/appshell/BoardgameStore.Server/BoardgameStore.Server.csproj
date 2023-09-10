@@ -1,11 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="5.0.4" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="7.0.4" />
   </ItemGroup>
 
   <ItemGroup>
@@ -17,12 +20,12 @@
   <!-- Artificially simulating the "pushing" of the microfrontends to a CDN -->
   <Target Name="CopyDll" AfterTargets="Build">
     <RemoveDir Directories="CDN" />
-    <Copy SourceFiles="..\..\discover-microfrontend\BoardgameStore.Discover\bin\Debug\net5.0\BoardgameStore.Discover.dll" DestinationFolder="CDN" OverwriteReadOnlyFiles="true" />
-    <Copy SourceFiles="..\..\order-microfrontend\BoardgameStore.Order\bin\Debug\net5.0\BoardgameStore.Order.dll" DestinationFolder="CDN" OverwriteReadOnlyFiles="true" />
+    <Copy SourceFiles="..\..\discover-microfrontend\BoardgameStore.Discover\bin\Debug\net7.0\BoardgameStore.Discover.dll" DestinationFolder="CDN" OverwriteReadOnlyFiles="true" SkipUnchangedFiles="false" />
+    <Copy SourceFiles="..\..\order-microfrontend\BoardgameStore.Order\bin\Debug\net7.0\BoardgameStore.Order.dll" DestinationFolder="CDN" OverwriteReadOnlyFiles="true" SkipUnchangedFiles="false" />
   </Target>
   <Target Name="CopyPdb" AfterTargets="CopyDll" Condition=" '$(Configuration)' == 'Debug' ">
-    <Copy SourceFiles="..\..\discover-microfrontend\BoardgameStore.Discover\bin\Debug\net5.0\BoardgameStore.Discover.pdb" DestinationFolder="CDN" OverwriteReadOnlyFiles="true" />
-    <Copy SourceFiles="..\..\order-microfrontend\BoardgameStore.Order\bin\Debug\net5.0\BoardgameStore.Order.pdb" DestinationFolder="CDN" OverwriteReadOnlyFiles="true" />
+    <Copy SourceFiles="..\..\discover-microfrontend\BoardgameStore.Discover\bin\Debug\net7.0\BoardgameStore.Discover.pdb" DestinationFolder="CDN" OverwriteReadOnlyFiles="true" SkipUnchangedFiles="false"/>
+    <Copy SourceFiles="..\..\order-microfrontend\BoardgameStore.Order\bin\Debug\net7.0\BoardgameStore.Order.pdb" DestinationFolder="CDN" OverwriteReadOnlyFiles="true" SkipUnchangedFiles="false"/>
   </Target>
 
 </Project>
