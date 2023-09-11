@@ -1,0 +1,23 @@
+@using BoardgameStore.Discover.Repositories
+@using BoardgameStore.Discover.Entities
+@inject IGameRepository GameRepository
+
+@attribute [Fragment("recommended-games")]
+
+<div class="container-fluid d-flex flex-row">
+    @foreach (var game in _games)
+    {
+        <GameCard Game=@game/>
+    }
+</div>
+
+@code{
+
+    private IEnumerable<Game> _games = null!;
+    
+    protected override void OnInitialized()
+    {
+        _games = GameRepository.GetAll().OrderBy(_ => Random.Shared.Next()).Take(3);
+    }
+
+}

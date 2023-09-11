@@ -14,37 +14,43 @@
     <div class="container card p-5">
         <p>No games yet. <a href="">Browse for games!</a></p>
     </div>
-    return;
+}
+else
+{
+    <div class="container card p-5 d-flex flex-column">
+        <table class="table">
+            <thead>
+            <tr>
+                <th></th>
+                <th>Item</th>
+                <th>Price</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var game in _games)
+            {
+                <tr>
+                    <td style="width: 20px">
+                        <div style="width:inherit; height: 20px; background: url('@game.ImageUrl') no-repeat center center; background-size: cover; border-radius: 5px"></div>
+                    </td>
+                    <td>
+                        <a href="/game?id=@game.Id">@game.Name</a>
+                    </td>
+                    <td>@game.Price.ToString("c")</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+
+        <button class="btn btn-success" @onclick="Order">Order!</button>
+
+    </div>
 }
 
-<div class="container card p-5 d-flex flex-column">
-    <table class="table">
-        <thead>
-        <tr>
-            <th></th>
-            <th>Item</th>
-            <th>Price</th>
-        </tr>
-        </thead>
-        <tbody>
-        @foreach (var game in _games)
-        {
-            <tr>
-                <td style="width: 20px">
-                    <div style="width:inherit; height: 20px; background: url('@game.ImageUrl') no-repeat center center; background-size: cover; border-radius: 5px"></div>
-                </td>
-                <td>
-                    <a href="/game?id=@game.Id">@game.Name</a>
-                </td>
-                <td>@game.Price.ToString("c")</td>
-            </tr>
-        }
-        </tbody>
-    </table>
-
-    <button class="btn btn-success" @onclick="Order">Order!</button>
-
-</div>
+<section class="container card p-5 d-flex flex-column mt-2">
+    <header><h3 class="mb-3">Recommended for you</h3></header>
+    <Fragment Name="recommended-games"/>
+</section>
 
 
 @code {
@@ -55,6 +61,7 @@
     {
         base.OnInitialized();
         _games = CartRepository.GetGames();
+        CartContext.CartUpdated += StateHasChanged;
     }
 
     private void Order()
