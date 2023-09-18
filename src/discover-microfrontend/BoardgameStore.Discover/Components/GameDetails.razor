@@ -23,7 +23,7 @@
         
         <div class="d-flex flex-column">
                 @{ var attributes = new Dictionary<string, object>() { { "GameId", _game.Id } }; }
-                <Fragment Name="game-actions" Attributes="attributes"/>
+                <FragmentSlot Name="game-actions" Attributes="attributes"/>
         </div>
     </div>
 </div>

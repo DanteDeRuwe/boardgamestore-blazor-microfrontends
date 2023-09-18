@@ -10,7 +10,7 @@
     </a>
     <div>
         @{ var attributes = new Dictionary<string, object>() { { "GameId", Game.Id } }; }
-        <Fragment Name="game-actions" Attributes="attributes"/>
+        <FragmentSlot Name="game-actions" Attributes="attributes"/>
     </div>
 </div>
 
