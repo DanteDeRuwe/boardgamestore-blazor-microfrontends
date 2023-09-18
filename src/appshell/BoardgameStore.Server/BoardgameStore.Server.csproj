@@ -16,7 +16,7 @@
     <ProjectReference Include="..\BoardgameStore.Client\BoardgameStore.Client.csproj" />
   </ItemGroup>
 
-  <!-- Artificially simulating the "pushing" of the microfrontends to a CDN -->
+  <!-- Artificially simulating the "pushing" of the microfrontends to the server for demo purposes -->
   <Target Name="CopyDll" AfterTargets="Build">
     <RemoveDir Directories="Microfrontends" />
     <Copy SourceFiles="..\..\discover-microfrontend\BoardgameStore.Discover\bin\Debug\net7.0\BoardgameStore.Discover.dll" DestinationFolder="Microfrontends" OverwriteReadOnlyFiles="true" SkipUnchangedFiles="false" />
