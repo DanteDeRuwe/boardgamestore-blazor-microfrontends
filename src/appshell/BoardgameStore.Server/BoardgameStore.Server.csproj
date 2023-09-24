@@ -5,6 +5,9 @@
     <LangVersion>latest</LangVersion>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+
+    <!-- Disable assembly trimming -->
+    <PublishTrimmed>false</PublishTrimmed>  
   </PropertyGroup>
 
   <ItemGroup>
@@ -16,15 +19,7 @@
     <ProjectReference Include="..\BoardgameStore.Client\BoardgameStore.Client.csproj" />
   </ItemGroup>
 
-  <!-- Artificially simulating the "pushing" of the microfrontends to the server for demo purposes -->
-  <Target Name="CopyDll" AfterTargets="Build">
-    <RemoveDir Directories="$(ProjectDir)Microfrontends" />
-    <Copy SourceFiles="$(ProjectDir)..\..\discover-microfrontend\BoardgameStore.Discover\$(OutDir)BoardgameStore.Discover.dll" DestinationFolder="Microfrontends" OverwriteReadOnlyFiles="true" SkipUnchangedFiles="false" />
-    <Copy SourceFiles="$(ProjectDir)..\..\order-microfrontend\BoardgameStore.Order\$(OutDir)BoardgameStore.Order.dll" DestinationFolder="Microfrontends" OverwriteReadOnlyFiles="true" SkipUnchangedFiles="false" />
-  </Target>
-  <Target Name="CopyPdb" AfterTargets="CopyDll" Condition=" '$(Configuration)' == 'Debug' ">
-    <Copy SourceFiles="$(ProjectDir)..\..\discover-microfrontend\BoardgameStore.Discover\$(OutDir)BoardgameStore.Discover.pdb" DestinationFolder="Microfrontends" OverwriteReadOnlyFiles="true" SkipUnchangedFiles="false" />
-    <Copy SourceFiles="$(ProjectDir)..\..\order-microfrontend\BoardgameStore.Order\$(OutDir)BoardgameStore.Order.pdb" DestinationFolder="Microfrontends" OverwriteReadOnlyFiles="true" SkipUnchangedFiles="false" />
-  </Target>
 
+  <!-- .targets for demo purposes -->
+  <Import Project="./BoardgameStore.Server.Targets" />
 </Project>

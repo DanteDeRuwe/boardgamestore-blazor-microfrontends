@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <!-- On build of this project, also build the Microfrontend projects and store their output file paths -->
+    <Target Name="BuildMFs" BeforeTargets="Build">
+        <MSBuild
+            Projects="$(ProjectDir)..\..\discover-microfrontend\BoardgameStore.Discover\BoardgameStore.Discover.csproj"
+            BuildInParallel="true" Targets="Build">
+            <Output TaskParameter="TargetOutputs" ItemName="DiscoverDll" />
+        </MSBuild>
+
+        <MSBuild Projects="$(ProjectDir)..\..\order-microfrontend\BoardgameStore.Order\BoardgameStore.Order.csproj"
+                 BuildInParallel="true" Targets="Build">
+            <Output TaskParameter="TargetOutputs" ItemName="OrderDll" />
+        </MSBuild>
+    </Target>
+
+    <!-- Artificially simulating the "pushing" of the microfrontends to the server for demo purposes -->
+    <Target Name="CopyDll" AfterTargets="Build" Condition=" '$(_IsPublishing)' != 'true' ">
+        <RemoveDir Directories="$(ProjectDir)Microfrontends" Condition=" '$(_IsPublishing)' != 'true' " />
+        <Copy SourceFiles="%(DiscoverDll.FullPath)" DestinationFolder="Microfrontends" OverwriteReadOnlyFiles="true"
+              SkipUnchangedFiles="false" />
+        <Copy SourceFiles="%(OrderDll.FullPath)" DestinationFolder="Microfrontends" OverwriteReadOnlyFiles="true"
+              SkipUnchangedFiles="false" />
+    </Target>
+    <Target Name="CopyPdb" AfterTargets="CopyDll" Condition=" '$(Configuration)' == 'Debug' ">
+        <Copy SourceFiles="@(DiscoverDll-&gt;'%(FullPath)'-&gt;Replace('.dll', '.pdb'))"
+              DestinationFolder="Microfrontends" OverwriteReadOnlyFiles="true" SkipUnchangedFiles="false" />
+        <Copy SourceFiles="@(OrderDll-&gt;'%(FullPath)'-&gt;Replace('.dll', '.pdb'))"
+              DestinationFolder="Microfrontends" OverwriteReadOnlyFiles="true" SkipUnchangedFiles="false" />
+    </Target>
+
+    <!-- Artificially simulating the "pushing" of the microfrontends to the server for demo purposes WHILE PUBLISHING -->
+    <Target Name="CopyDllWhenPublishing" AfterTargets="Build" Condition=" '$(_IsPublishing)' == 'true' ">
+        <RemoveDir Directories="$(PublishDir)\Microfrontends" />
+        <Copy SourceFiles="%(DiscoverDll.FullPath)" DestinationFolder="$(PublishDir)\Microfrontends"
+              OverwriteReadOnlyFiles="true" SkipUnchangedFiles="false" />
+        <Copy SourceFiles="%(OrderDll.FullPath)" DestinationFolder="$(PublishDir)\Microfrontends"
+              OverwriteReadOnlyFiles="true" SkipUnchangedFiles="false" />
+    </Target>
+</Project>
