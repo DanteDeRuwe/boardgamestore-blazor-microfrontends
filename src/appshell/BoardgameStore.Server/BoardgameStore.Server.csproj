@@ -18,8 +18,4 @@
     <ProjectReference Include="..\..\framework\MicrofrontendFramework.Blazor\MicrofrontendFramework.Blazor.csproj" />
     <ProjectReference Include="..\BoardgameStore.Client\BoardgameStore.Client.csproj" />
   </ItemGroup>
-
-
-  <!-- .targets for demo purposes -->
-  <Import Project="./BoardgameStore.Server.Targets" />
 </Project>
