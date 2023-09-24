@@ -13,7 +13,9 @@ builder.Services.AddRazorPages();
 builder.Services.AddSelfReferentialHttpClient();
 
 var env = builder.Environment;
-var assemblies = ServerAssemblyLoader.LoadAssemblies(env.IsDevelopment());
+
+var mfFileProvider = new PhysicalFileProvider(Path.Combine(env.ContentRootPath, "Microfrontends"));
+var assemblies = ServerAssemblyLoader.LoadAssemblies(env.IsDevelopment(), mfFileProvider);
 builder.Services.AddMicrofrontends(assemblies);
 
 var app = builder.Build();
@@ -36,7 +38,7 @@ app.UseStaticFiles();
 // Make sure we serve the microfrontend files
 app.UseStaticFiles(new StaticFileOptions
 {
-    FileProvider = new PhysicalFileProvider(Path.Combine(env.ContentRootPath, "Microfrontends")),
+    FileProvider = mfFileProvider,
     RequestPath = "/Microfrontends",
     ServeUnknownFileTypes = true
 });
