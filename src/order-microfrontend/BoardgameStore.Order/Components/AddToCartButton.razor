@@ -25,8 +25,7 @@ else
 
 @code{
 
-    [Parameter]
-    public int GameId { get; set; }
+    [Parameter] public int GameId { get; set; }
 
     private Game _game = default!;
     private bool _inCart;
@@ -44,4 +43,5 @@ else
         CartContext.CartUpdated.Invoke();
         _inCart = true;
     }
+
 }

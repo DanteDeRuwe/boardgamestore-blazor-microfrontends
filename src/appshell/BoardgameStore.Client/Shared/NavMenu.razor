@@ -19,5 +19,10 @@
 @code {
     private bool _collapseNavMenu = true;
     private string NavMenuCssClass => _collapseNavMenu ? "navbar-collapse" : "";
-    private void ToggleNavMenu() => _collapseNavMenu = !_collapseNavMenu;
+
+    private void ToggleNavMenu()
+    {
+        _collapseNavMenu = !_collapseNavMenu;
+    }
+
 }

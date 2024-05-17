@@ -1,9 +1,10 @@
 ﻿using System.Reflection;
 
-namespace MicrofrontendFramework.Blazor
+namespace MicrofrontendFramework.Blazor;
+
+public class AssemblyCollection : List<Assembly>
 {
-    public class AssemblyCollection : List<Assembly>
-    { 
-        public AssemblyCollection(IEnumerable<Assembly> assemblies) : base(assemblies) { }
+    public AssemblyCollection(IEnumerable<Assembly> assemblies) : base(assemblies)
+    {
     }
 }

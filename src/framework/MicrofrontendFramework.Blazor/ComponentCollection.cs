@@ -4,8 +4,13 @@ namespace MicrofrontendFramework.Blazor;
 
 internal class ComponentCollection : List<Type>
 {
-    public ComponentCollection() : base() { }
-    public ComponentCollection(IEnumerable<Type> components) : base(components) { }
+    public ComponentCollection() : base()
+    {
+    }
+
+    public ComponentCollection(IEnumerable<Type> components) : base(components)
+    {
+    }
 
     public static ComponentCollection FromAssembly(Assembly assembly)
     {
