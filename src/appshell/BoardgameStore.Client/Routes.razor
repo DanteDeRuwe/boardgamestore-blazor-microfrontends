@@ -1,0 +1,8 @@
+﻿@inject AssemblyCollection Assemblies
+
+<Router AppAssembly="typeof(Program).Assembly" AdditionalAssemblies="Assemblies">
+    <Found Context="routeData">
+        <RouteView RouteData="routeData" DefaultLayout="typeof(MainLayout)" />
+        <FocusOnNavigate RouteData="routeData" Selector="h1" />
+    </Found>
+</Router>

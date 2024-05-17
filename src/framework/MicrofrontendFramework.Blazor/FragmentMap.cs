@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace MicrofrontendFramework.Blazor.Internal;
+namespace MicrofrontendFramework.Blazor;
 
 internal class FragmentMap
 {

@@ -1,5 +1,4 @@
 using System.Reflection;
-using MicrofrontendFramework.Blazor.Internal;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace MicrofrontendFramework.Blazor;

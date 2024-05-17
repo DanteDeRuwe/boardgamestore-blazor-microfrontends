@@ -8,7 +8,7 @@ public static class Microfrontend
 {
     public static void ConfigureServices(IServiceCollection services)
     {
-        services.AddSingleton(new CartContext());
+        services.AddScoped<CartContext>();
         services.AddSingleton<IGameRepository, InMemoryGameRepository>();
         services.AddSingleton<ICartRepository, InMemoryCartRepository>();
     }
