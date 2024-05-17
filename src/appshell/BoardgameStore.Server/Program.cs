@@ -1,5 +1,6 @@
 ﻿using System.Globalization;
 using BoardgameStore.Server;
+using BoardgameStore.Server.Components;
 using MicrofrontendFramework.Blazor;
 using Microsoft.Extensions.FileProviders;
 
@@ -11,8 +12,6 @@ CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("nl-BE");
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents()
     .AddInteractiveWebAssemblyComponents();
-
-builder.Services.AddSelfReferentialHttpClient();
 
 var env = builder.Environment;
 
@@ -29,7 +28,7 @@ if (env.IsDevelopment())
 }
 else
 {
-    app.UseExceptionHandler("/Error", true);
+    app.UseExceptionHandler("/error", true);
     app.UseHsts();
 }
 
