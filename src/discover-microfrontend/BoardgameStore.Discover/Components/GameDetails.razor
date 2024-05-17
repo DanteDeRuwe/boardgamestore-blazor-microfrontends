@@ -20,18 +20,17 @@
             <b>Name: </b> @_game.Name
             <b>Price: </b> @_game.Price.ToString("C")
         </div>
-        
+
         <div class="d-flex flex-column">
-                @{ var attributes = new Dictionary<string, object>() { { "GameId", _game.Id } }; }
-                <FragmentSlot Name="game-actions" Attributes="attributes"/>
+            @{ var attributes = new Dictionary<string, object>() { { "GameId", _game.Id } }; }
+            <FragmentSlot Name="game-actions" Attributes="attributes"/>
         </div>
     </div>
 </div>
 
 @code {
 
-    [Parameter]
-    public string Id { get; set; }
+    [Parameter] public string Id { get; set; }
 
     private Game _game;
 

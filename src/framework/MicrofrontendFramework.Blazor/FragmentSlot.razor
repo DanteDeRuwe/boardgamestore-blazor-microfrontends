@@ -1,6 +1,5 @@
 @using System.Collections.Immutable
 @using System.Reflection
-@using MicrofrontendFramework.Blazor.Internal
 @using Microsoft.Extensions.Logging
 @inject FragmentMap FragmentMap
 
@@ -10,11 +9,9 @@
 
 @code {
 
-    [Parameter]
-    public string Name { get; set; }
+    [Parameter] public string Name { get; set; }
 
-    [Parameter]
-    public Dictionary<string, object> Attributes { get; set; } = new();
+    [Parameter] public Dictionary<string, object> Attributes { get; set; } = new();
 
     private Type[] Components { get; set; } = null!;
 
@@ -24,7 +21,7 @@
         {
             var component = Components[i];
             var componentProps = component.GetProperties(BindingFlags.Public | BindingFlags.Instance).Select(p => p.Name).ToImmutableArray();
-            
+
             renderTreeBuilder.OpenComponent(i, component);
             foreach (var (key, value) in Attributes)
             {
@@ -33,6 +30,7 @@
                     renderTreeBuilder.AddAttribute(i, key, value);
                 }
             }
+
             renderTreeBuilder.CloseComponent();
         }
     };

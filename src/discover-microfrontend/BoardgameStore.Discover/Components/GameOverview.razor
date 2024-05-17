@@ -3,11 +3,9 @@
 
 @attribute [Fragment("homepage")]
 
-<div class="container-fluid d-flex flex-wrap">
-        @foreach (var game in GameRepository.GetAll())
-        {
-            <GameCard Game=@game/>
-        }
+<div class="container-fluid d-flex flex-wrap gap-2">
+    @foreach (var game in GameRepository.GetAll())
+    {
+        <GameCard Game=@game/>
+    }
 </div>
-
-@code{}

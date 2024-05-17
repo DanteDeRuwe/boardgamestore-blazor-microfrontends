@@ -1,5 +1,6 @@
 ﻿using System.Globalization;
 using BoardgameStore.Server;
+using BoardgameStore.Server.Components;
 using MicrofrontendFramework.Blazor;
 using Microsoft.Extensions.FileProviders;
 
@@ -7,10 +8,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("nl-BE");
 
-builder.Services.AddControllersWithViews();
-builder.Services.AddRazorPages();
-
-builder.Services.AddSelfReferentialHttpClient();
+// Add services to the container.
+builder.Services.AddRazorComponents()
+    .AddInteractiveServerComponents()
+    .AddInteractiveWebAssemblyComponents();
 
 var env = builder.Environment;
 
@@ -20,22 +21,27 @@ builder.Services.AddMicrofrontends(assemblies);
 
 var app = builder.Build();
 
+// Configure the HTTP request pipeline.
 if (env.IsDevelopment())
 {
-    app.UseDeveloperExceptionPage();
     app.UseWebAssemblyDebugging();
 }
 else
 {
-    app.UseExceptionHandler("/Error");
+    app.UseExceptionHandler("/error", true);
     app.UseHsts();
 }
 
 app.UseHttpsRedirection();
-app.UseBlazorFrameworkFiles();
 app.UseStaticFiles();
+app.UseAntiforgery();
 
-// Make sure we serve the microfrontend files
+app.MapRazorComponents<App>()
+    .AddInteractiveServerRenderMode()
+    .AddInteractiveWebAssemblyRenderMode()
+    .AddAdditionalAssemblies(assemblies.ToArray()); // server routing for microfrontend assemblies
+
+// Serve the microfrontend files
 app.UseStaticFiles(new StaticFileOptions
 {
     FileProvider = mfFileProvider,
@@ -43,12 +49,7 @@ app.UseStaticFiles(new StaticFileOptions
     ServeUnknownFileTypes = true
 });
 
-app.UseRouting();
-
-app.MapRazorPages();
-
+// List the microfrontend files via api route
 app.MapGet("/microfrontends", () => Directory.GetFiles("Microfrontends").Select(f => f.Replace('\\', '/')).Select(x => $"/{x}"));
-
-app.MapFallbackToPage("/_Host");
 
 await app.RunAsync();

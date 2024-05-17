@@ -1,5 +1,4 @@
 using System.Reflection;
-using MicrofrontendFramework.Blazor.Internal;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace MicrofrontendFramework.Blazor;
@@ -27,7 +26,7 @@ public static class Extensions
 
     private const string MicrofrontendEntrypoint = "Microfrontend";
     private const string ConfigureServices = "ConfigureServices";
-    
+
     private static void ConfigureMicrofrontend(this IServiceCollection services, Assembly assembly)
     {
         var configureServicesMethod = assembly
