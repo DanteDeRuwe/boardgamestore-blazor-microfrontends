@@ -4,7 +4,7 @@
 @inject FragmentMap FragmentMap
 
 
-@RenderFragment
+@_renderFragment
 
 
 @code {
@@ -13,32 +13,37 @@
 
     [Parameter] public Dictionary<string, object> Attributes { get; set; } = new();
 
-    private Type[] Components { get; set; } = null!;
-
-    private RenderFragment RenderFragment => renderTreeBuilder =>
-    {
-        for (var i = 0; i < Components.Length; i++)
-        {
-            var component = Components[i];
-            var componentProps = component.GetProperties(BindingFlags.Public | BindingFlags.Instance).Select(p => p.Name).ToImmutableArray();
-
-            renderTreeBuilder.OpenComponent(i, component);
-            foreach (var (key, value) in Attributes)
-            {
-                if (componentProps.Contains(key))
-                {
-                    renderTreeBuilder.AddAttribute(i, key, value);
-                }
-            }
-
-            renderTreeBuilder.CloseComponent();
-        }
-    };
+    private RenderFragment? _renderFragment = null;
 
     protected override async Task OnInitializedAsync()
     {
+        var components = FragmentMap.Get(Name).ToArray();
+
+        _renderFragment = components.Length <= 0
+            ? null
+            : builder =>
+            {
+                for (var i = 0; i < components.Length; i++)
+                {
+                    var component = components[i];
+
+                    var componentProps = component
+                        .GetProperties(BindingFlags.Public | BindingFlags.Instance)
+                        .Select(x => x.Name)
+                        .ToImmutableHashSet();
+
+                    builder.OpenComponent(i, component);
+
+                    foreach (var attr in Attributes.Where(x => componentProps.Contains(x.Key)))
+                    {
+                        builder.AddAttribute(i, attr.Key, attr.Value);
+                    }
+
+                    builder.CloseComponent();
+                }
+            };
+
         await base.OnInitializedAsync();
-        Components = FragmentMap.Get(Name).ToArray();
     }
 
 }

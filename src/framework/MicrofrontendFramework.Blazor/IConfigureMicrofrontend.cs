@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-
-namespace MicrofrontendFramework.Blazor;
+﻿namespace MicrofrontendFramework.Blazor;
 
 public interface IConfigureMicrofrontend
 {

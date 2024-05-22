@@ -1,6 +1,3 @@
-using System.Reflection;
-using Microsoft.Extensions.DependencyInjection;
-
 namespace MicrofrontendFramework.Blazor;
 
 public static class Extensions
@@ -11,28 +8,27 @@ public static class Extensions
     public static void AddMicrofrontends(this IServiceCollection services, IEnumerable<Assembly> assemblies)
     {
         var assemblyCollection = new AssemblyCollection(assemblies);
-        services.AddSingleton(assemblyCollection);
-
+        var types = assemblyCollection.SelectMany(a => a.GetTypes());
+        
         var components = new List<Type>();
-        foreach (var assembly in assemblyCollection)
+        foreach (var type in types)
         {
-            components.AddRange(assembly.GetTypesWithInterface(typeof(Microsoft.AspNetCore.Components.IComponent)));
-            services.ConfigureMicrofrontend(assembly);
+            var interfaces = type.GetInterfaces().ToHashSet();
+            if (interfaces.Count == 0) continue;
+
+            if (interfaces.Contains(typeof(Microsoft.AspNetCore.Components.IComponent)))
+            {
+                components.Add(type);
+            }
+
+            if (interfaces.Contains(typeof(IConfigureMicrofrontend)))
+            {
+                var configureMethod = type.GetMethod(nameof(IConfigureMicrofrontend.ConfigureServices));
+                configureMethod?.Invoke(null, [services]);
+            }
         }
 
-        services.AddSingleton(FragmentMap.FromComponents(components));
-    }
-
-    private static void ConfigureMicrofrontend(this IServiceCollection services, Assembly assembly)
-    {
-        assembly.GetTypesWithInterface(typeof(IConfigureMicrofrontend))
-            .FirstOrDefault()
-            ?.GetMethod(nameof(IConfigureMicrofrontend.ConfigureServices))
-            ?.Invoke(null, [services]);
-    }
-
-    private static IEnumerable<Type> GetTypesWithInterface(this Assembly assembly, Type interfaceType)
-    {
-        return assembly.GetTypes().Where(t => t.GetInterfaces().Contains(interfaceType));
+        services.AddSingleton(assemblyCollection); // For use in routing
+        services.AddSingleton(FragmentMap.FromComponents(components)); // For use in rendering fragments
     }
 }
