@@ -8,8 +8,10 @@
 @inject CartContext CartContext;
 
 <li class="nav-item px-3">
-    <NavLink class="nav-link" href="/cart">
-        <span class="oi oi-cart" aria-hidden="true"></span> Cart <span class="badge badge-pill badge-light text-success ml-2">@CartRepository.ItemCount</span>
+    <NavLink class="nav-link d-flex flex-row align-items-center" href="/cart">
+        <span class="oi oi-cart" aria-hidden="true"></span>
+        <span>Cart</span>
+        <span class="badge rounded-pill bg-light text-success ms-2 px-2 py-1">@CartRepository.ItemCount</span>
     </NavLink>
 </li>
 

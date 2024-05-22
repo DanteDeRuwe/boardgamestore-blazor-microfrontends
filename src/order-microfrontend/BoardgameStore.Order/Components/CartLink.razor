@@ -7,9 +7,10 @@
 @inject ICartRepository CartRepository;
 @inject CartContext CartContext;
 
-<a href="/cart" class="border-bottom" style="text-decoration: inherit; color: inherit;">
+<a href="/cart" class="border-bottom d-flex flex-row align-items-center" style="text-decoration: inherit; color: inherit;">
     <span class="oi oi-cart" aria-hidden="true"></span>
-    Cart <span class="badge badge-pill badge-success">@CartRepository.ItemCount</span>
+    <span>Cart</span>
+    <span class="badge rounded-pill bg-success ms-2">@CartRepository.ItemCount</span>
 </a>
 
 @code{
