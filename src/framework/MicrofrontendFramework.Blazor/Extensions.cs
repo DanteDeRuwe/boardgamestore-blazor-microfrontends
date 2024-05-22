@@ -13,27 +13,26 @@ public static class Extensions
         var assemblyCollection = new AssemblyCollection(assemblies);
         services.AddSingleton(assemblyCollection);
 
-        var componentCollection = new ComponentCollection();
+        var components = new List<Type>();
         foreach (var assembly in assemblyCollection)
         {
-            componentCollection.AddRange(ComponentCollection.FromAssembly(assembly));
+            components.AddRange(assembly.GetTypesWithInterface(typeof(Microsoft.AspNetCore.Components.IComponent)));
             services.ConfigureMicrofrontend(assembly);
         }
 
-        services.AddScoped<ComponentCollection>(_ => componentCollection);
-        services.AddScoped<FragmentMap>(_ => FragmentMap.FromComponents(componentCollection));
+        services.AddSingleton(FragmentMap.FromComponents(components));
     }
-
-    private const string MicrofrontendEntrypoint = "Microfrontend";
-    private const string ConfigureServices = "ConfigureServices";
 
     private static void ConfigureMicrofrontend(this IServiceCollection services, Assembly assembly)
     {
-        var configureServicesMethod = assembly
-            .GetTypes()
-            .FirstOrDefault(x => x.Name.Equals(MicrofrontendEntrypoint, StringComparison.Ordinal))
-            ?.GetMethod(ConfigureServices, BindingFlags.Public | BindingFlags.Static, null, new[] { typeof(IServiceCollection) }, null);
+        assembly.GetTypesWithInterface(typeof(IConfigureMicrofrontend))
+            .FirstOrDefault()
+            ?.GetMethod(nameof(IConfigureMicrofrontend.ConfigureServices))
+            ?.Invoke(null, [services]);
+    }
 
-        configureServicesMethod?.Invoke(null, new object[] { services });
+    private static IEnumerable<Type> GetTypesWithInterface(this Assembly assembly, Type interfaceType)
+    {
+        return assembly.GetTypes().Where(t => t.GetInterfaces().Contains(interfaceType));
     }
 }

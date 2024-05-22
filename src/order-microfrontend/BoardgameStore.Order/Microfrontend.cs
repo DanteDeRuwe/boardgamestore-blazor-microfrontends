@@ -1,10 +1,11 @@
 ﻿using BoardgameStore.Order.Context;
 using BoardgameStore.Order.Repositories;
+using MicrofrontendFramework.Blazor;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace BoardgameStore.Order;
 
-public static class Microfrontend
+public class Microfrontend : IConfigureMicrofrontend
 {
     public static void ConfigureServices(IServiceCollection services)
     {
