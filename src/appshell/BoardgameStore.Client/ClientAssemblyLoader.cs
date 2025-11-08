@@ -18,10 +18,10 @@ internal static class ClientAssemblyLoader
         bool isDevelopment = true)
     {
         var filePaths = await client.GetFromJsonAsync<string[]>(ApiRoute);
-        var dllPaths = filePaths?.Where(f => f.EndsWith(LibraryExtension)) ?? Enumerable.Empty<string>();
+        var dllPaths = filePaths?.Where(f => f.EndsWith(LibraryExtension)) ?? [];
 
         var clientAssembly = Assembly.GetAssembly(typeof(IClientMarker)) ?? throw new InvalidOperationException("Client assembly not found.");
-        var assemblies = new AssemblyCollection([clientAssembly]);
+        List<Assembly> assemblies = [clientAssembly];
 
         foreach (var dllPath in dllPaths)
         {
@@ -35,6 +35,6 @@ internal static class ClientAssemblyLoader
             assemblies.Add(assembly);
         }
 
-        return assemblies;
+        return new AssemblyCollection(assemblies);
     }
 }

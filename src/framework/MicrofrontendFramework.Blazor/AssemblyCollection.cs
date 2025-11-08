@@ -1,3 +1,5 @@
-﻿namespace MicrofrontendFramework.Blazor;
+﻿using System.Collections.ObjectModel;
 
-public class AssemblyCollection(IEnumerable<Assembly> assemblies) : List<Assembly>(assemblies);
+namespace MicrofrontendFramework.Blazor;
+
+public class AssemblyCollection(IEnumerable<Assembly> assemblies) : ReadOnlyCollection<Assembly>(assemblies.ToList());

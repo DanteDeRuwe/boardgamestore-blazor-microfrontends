@@ -19,7 +19,7 @@ internal static class ServerAssemblyLoader
         var dllPaths = filePaths.Where(f => f.EndsWith(LibraryExtension));
 
         var clientAssembly = Assembly.GetAssembly(typeof(IClientMarker)) ?? throw new InvalidOperationException("Client assembly not found");
-        var assemblies = new AssemblyCollection([clientAssembly]);
+        List<Assembly> assemblies = [clientAssembly];
 
         foreach (var dllPath in dllPaths)
         {
@@ -33,6 +33,6 @@ internal static class ServerAssemblyLoader
             assemblies.Add(assembly);
         }
 
-        return assemblies;
+        return new AssemblyCollection(assemblies);
     }
 }
