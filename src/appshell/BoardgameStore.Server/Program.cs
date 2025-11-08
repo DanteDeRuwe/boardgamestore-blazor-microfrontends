@@ -6,7 +6,7 @@ using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
 
-CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("nl-BE");
+CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("en-US");
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
