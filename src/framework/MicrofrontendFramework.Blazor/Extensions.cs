@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Components;
+
 namespace MicrofrontendFramework.Blazor;
 
 public static class Extensions
@@ -5,22 +7,21 @@ public static class Extensions
     /// <summary> Registers a list of microfrontend assemblies into a service collection, taking care of each microfrontend's DI</summary>
     /// <param name="services">The service collection to register microfrontends onto</param>
     /// <param name="assemblies">The microfrontend assemblies</param>
-    public static void AddMicrofrontends(this IServiceCollection services, IEnumerable<Assembly> assemblies)
+    public static void AddMicrofrontends(this IServiceCollection services, AssemblyCollection assemblies)
     {
-        var assemblyCollection = new AssemblyCollection(assemblies);
-        var types = assemblyCollection.SelectMany(a => a.GetTypes());
-        
-        var components = new List<Type>();
-        foreach (var type in types)
+        List<Type> components = [];
+        foreach (var type in assemblies.SelectMany(a => a.GetTypes()).Distinct())
         {
             var interfaces = type.GetInterfaces().ToHashSet();
             if (interfaces.Count == 0) continue;
 
-            if (interfaces.Contains(typeof(Microsoft.AspNetCore.Components.IComponent)))
+            // type is component
+            if (interfaces.Contains(typeof(IComponent)))
             {
                 components.Add(type);
             }
 
+            // type is a microfrontend configurator
             if (interfaces.Contains(typeof(IConfigureMicrofrontend)))
             {
                 var configureMethod = type.GetMethod(nameof(IConfigureMicrofrontend.ConfigureServices));
@@ -28,7 +29,7 @@ public static class Extensions
             }
         }
 
-        services.AddSingleton(assemblyCollection); // For use in routing
+        services.AddSingleton(assemblies); // For use in routing
         services.AddSingleton(FragmentMap.FromComponents(components)); // For use in rendering fragments
     }
 }
